@@ -31,3 +31,5 @@ bin
 
 client/node_modules
 client/dist/assets/bundle.min.js
+
+build

@@ -18,7 +18,10 @@ export class AuthorList extends Component {
         .then((response) => response.json())
         .then((responseJson) => {
             console.log("responseJson.authors->",responseJson)
-            responseJson;
+            this.setState({
+                    loading: false,
+                    authors: responseJson
+                })
           }).catch((error) => {
             console.error(error);
           })
@@ -38,7 +41,12 @@ export class AuthorList extends Component {
         let authorsListRows = <tr><td colSpan="2">Currently 0 Authors</td></tr>
 
         if(this.state.authors.length>0){
-            authorsListRows = <AuthorListRow firstName="Vasia" lastName="Pupkin" />
+            authorsListRows = this.state.authors.map(function(author){
+                return <AuthorListRow 
+                            firstName={author.firstName} 
+                            lastName={author.lastName} 
+                            key={author.id}/>
+            })
         }
 
         return (

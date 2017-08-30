@@ -13,18 +13,19 @@ export class AuthorList extends Component {
     }
 
     getAuthorsFromApiAsync(){
-        return fetch('http://localhost:8080/api/author/all')
+        this.setState({loading: true})
+         fetch('http://localhost:8080/api/author/all')
         .then((response) => response.json())
         .then((responseJson) => {
-            return responseJson.authors;
+            console.log("responseJson.authors->",responseJson)
+            responseJson;
           }).catch((error) => {
             console.error(error);
           })
     }
 
     componentDidMount(){
-        let authors =  this.getAuthorsFromApiAsync()
-        console.log("authors->",authors)
+       this.getAuthorsFromApiAsync()
     }
 
     render() {

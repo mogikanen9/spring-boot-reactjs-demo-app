@@ -1,6 +1,7 @@
 package com.mogikanensoftware.spring.demo.app.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,6 +19,7 @@ public class AuthorController {
 		this.authorRepository = authorRepository;
 	}
 	
+	@CrossOrigin(origins = "http://localhost:3000")
 	@GetMapping("/api/author/all")
 	public Iterable<Author> listAll(){
 		return this.authorRepository.findAll();

@@ -52,7 +52,7 @@ export class AuthorList extends Component {
         }
 
         return (
-            <div className="page">
+            <div className="container">
                  <CustomPageHeader headerTitle="Authors"/>
                  <div className="row">
                      <div className="col-md-12">

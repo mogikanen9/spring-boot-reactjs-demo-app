@@ -5,7 +5,7 @@ export class Home extends Component{
     render(){
         return(
             
-            <div className="home">
+            <div className="container">
               <CustomPageHeader headerTitle="Book Catalogue App. Home page."/>
             </div>
         )

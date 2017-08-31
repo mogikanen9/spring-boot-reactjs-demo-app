@@ -1,6 +1,8 @@
 import { Component } from 'react'
 import fetch from 'isomorphic-fetch'
 import { AuthorListRow } from './AuthorListRow'
+import {CustomPageHeader} from '../CustomPageHeader'
+import Jumbotron from 'react-bootstrap/lib/PageHeader'
 
 export class AuthorList extends Component {
 
@@ -51,21 +53,21 @@ export class AuthorList extends Component {
 
         return (
             <div className="page">
-                <div className="member-list">
-                    <h1>Book AuthorList</h1>
-                   <div>
-                      <table>
-                        <thead>
-                            <tr>
-                                <th>First name</th>
-                                <th>Last name</th>
-                            </tr>
-                        </thead>
-                        <tbody>    
-                           {authorsListRows}
-                        </tbody>   
-                      </table>
-                   </div>    
+                 <CustomPageHeader headerTitle="Authors"/>
+                 <div className="row">
+                     <div className="col-md-12">
+                            <table className=".table">
+                                <thead>
+                                    <tr>
+                                        <th>First name</th>
+                                        <th>Last name</th>
+                                    </tr>
+                                </thead>
+                                <tbody>    
+                                {authorsListRows}
+                                </tbody>   
+                            </table>
+                      </div>      
                 </div>
              </div>    
         )    

@@ -1,8 +1,8 @@
 import React from 'react'
 import { HashRouter as Router, Route, Switch } from 'react-router-dom'
-import { Home } from './components/ui/Home'
-import  { Whoops404 } from './components/ui/Whoops404'
-import { AuthorList } from './components/ui/AuthorList'
+import { Home } from './components/ui/home/Home'
+import  { Whoops404 } from './components/ui/err/Whoops404'
+import { AuthorList } from './components/ui/author/AuthorList'
 
 const routes = (
     <Router>

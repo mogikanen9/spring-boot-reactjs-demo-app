@@ -2,6 +2,7 @@ import {Component} from 'react'
 import {FieldGroup} from 'react-bootstrap'
 import Button from 'react-bootstrap'
 import fetch from 'isomorphic-fetch'
+import { PropTypes } from 'prop-types'
 
 export class AuthorForm extends Component{
     constructor(props){
@@ -49,7 +50,7 @@ export class AuthorForm extends Component{
                 firstName: "",
                 lastName: ""
             })
-            
+            this.context.router.history.push('/authors')
           }).catch((error) => {
             console.error(error);
           })
@@ -97,3 +98,7 @@ export class AuthorForm extends Component{
         )
     }
 }
+
+AuthorForm.contextTypes = {
+    router: PropTypes.object.isRequired
+    }

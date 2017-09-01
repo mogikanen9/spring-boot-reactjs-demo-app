@@ -16,13 +16,13 @@ export class AuthorList extends Component {
 
     getAuthorsFromApiAsync(){
         this.setState({loading: true})
-         fetch('http://localhost:8080/api/author/all')
+         fetch('http://localhost:8080/api/v1/authors')
         .then((response) => response.json())
         .then((responseJson) => {
-            console.log("responseJson.authors->",responseJson)
+            console.log("responseJson.authors->",responseJson._embedded.authors)
             this.setState({
                     loading: false,
-                    authors: responseJson
+                    authors: responseJson._embedded.authors
                 })
           }).catch((error) => {
             console.error(error);
@@ -47,7 +47,7 @@ export class AuthorList extends Component {
                 return <AuthorListRow 
                             firstName={author.firstName} 
                             lastName={author.lastName} 
-                            key={author.id}/>
+                            key={author._links.author.href}/>
             })
         }
 

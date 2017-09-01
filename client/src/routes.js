@@ -1,9 +1,15 @@
 import React from 'react'
 import { HashRouter as Router, Route, Switch } from 'react-router-dom'
+
 import { Home } from './components/ui/home/Home'
+
 import  { Whoops404 } from './components/ui/err/Whoops404'
+
 import { AuthorList } from './components/ui/author/AuthorList'
+import { AuthorForm } from './components/ui/author/AuthorForm'
+
 import { BookList } from './components/ui/book/BookList'
+
 import { PublisherList } from './components/ui/publisher/PublisherList'
 
 const routes = (
@@ -11,7 +17,8 @@ const routes = (
         <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/home" component={Home} />
-            <Route path="/authors" component={AuthorList} />
+            <Route exact path="/authors" component={AuthorList} />
+            <Route path="/authors/create" component={AuthorForm} />
             <Route path="/books" component={BookList} />
             <Route path="/publishers" component={PublisherList} />
             <Route path="*" component={Whoops404} />

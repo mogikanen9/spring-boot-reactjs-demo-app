@@ -67,7 +67,10 @@ export class AuthorList extends Component {
                                 {authorsListRows}
                                 </tbody>   
                             </table>
-                      </div>      
+                            <p>
+                                <a href="#/authors/create"> Add Author </a>
+                          </p>    
+                      </div>  
                 </div>
              </div>    
         )    

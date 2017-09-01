@@ -20,6 +20,7 @@
   "dependencies": {
     "isomorphic-fetch": "^2.2.1",
     "react": "^15.6.1",
+    "react-bootstrap": "^0.31.2",
     "react-dom": "^15.6.1",
     "react-icons": "^2.2.5",
     "react-router": "^4.1.2",

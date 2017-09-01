@@ -1,6 +1,7 @@
 import {Component} from 'react'
 import {FieldGroup} from 'react-bootstrap'
 import Button from 'react-bootstrap'
+import fetch from 'isomorphic-fetch'
 
 export class AuthorForm extends Component{
     constructor(props){
@@ -33,6 +34,25 @@ export class AuthorForm extends Component{
             lastName: this.state.lastName
         }
         console.log("new author->",author)
+
+        fetch('http://localhost:8080/api/v1/authors/', {
+            method: 'POST', 
+            body: JSON.stringify(author),
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            })
+        })
+        .then((response) => response.json())
+        .then((responseJson) => {
+            console.log("responseJson->",responseJson)
+            this.setState({
+                firstName: "",
+                lastName: ""
+            })
+            
+          }).catch((error) => {
+            console.error(error);
+          })
     }
 
     render(){

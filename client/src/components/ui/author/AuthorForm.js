@@ -10,16 +10,28 @@ export class AuthorForm extends Component{
         this.state={
                 firstName: "",
                 lastName: "",
-                //handleCancel: this.props.handleCancel,
-                //executeOnSubmit: this.props.executeOnSubmit
+                entityLink: this.props.entityLink || ""
         }
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
         this.handleLastNameChange = this.handleLastNameChange.bind(this);
     }
 
-    componentidiMount(){
-
+    componentDidMount(){
+        console.log('mounted, entityLink->',this.state.entityLink)
+        if(this.state.entityLink && this.state.entityLink!==""){
+            fetch(this.state.entityLink)
+            .then((response) => response.json())
+            .then((responseJson) => {
+                console.log("responseJson",responseJson)
+                this.setState({
+                        firstName: responseJson.firstName,
+                        lastName: responseJson.lastName
+                    })
+              }).catch((error) => {
+                console.error(error);
+              })
+        }
     }
 
     handleFirstNameChange(e) {
@@ -110,6 +122,5 @@ export class AuthorForm extends Component{
 }
 
 AuthorForm.contextTypes = {
-    router: PropTypes.object.isRequired,
-    title: PropTypes.string.isRequired
+    router: PropTypes.object.isRequired
     }

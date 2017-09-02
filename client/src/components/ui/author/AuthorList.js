@@ -56,9 +56,11 @@ export class AuthorList extends Component {
         })
     }
 
-    handleViewEdit(e){
+    handleViewEdit(e,key){
+        console.log('key->',key)
         this.setState({
-            action: "view-edit"
+            action: "view-edit",
+            entityLink: key
         })
     }
 
@@ -78,7 +80,8 @@ export class AuthorList extends Component {
         return <AuthorForm 
                         handleCancel={this.handleHideAuthorForm} 
                         executeOnSubmit={this.executeOnSubmitAuthorForm}
-                        title="Modify Author"/> 
+                        title="Modify Author"
+                        entityLink={this.state.entityLink}/> 
     }
 
 
@@ -92,7 +95,7 @@ export class AuthorList extends Component {
                                     firstName={author.firstName} 
                                     lastName={author.lastName} 
                                     key={author._links.author.href}
-                                    handleViewEdit={this.handleViewEdit}/>
+                                    handleViewEdit={(evt) => this.handleViewEdit(evt,author._links.author.href)}/>
                     },this)
                 }
 

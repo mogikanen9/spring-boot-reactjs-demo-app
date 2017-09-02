@@ -21,8 +21,11 @@ export class AuthorListRow extends Component {
                         {this.props.lastName}  
                     </td>
                     <td>
-                        <Button bsStyle="link" onClick={this.props.handleViewEdit} >View/Edit</Button>  
+                        <Button bsStyle="info" onClick={this.props.handleViewEdit} >View/Edit</Button> 
                     </td>
+                    <td>
+                        <Button bsStyle="danger" onClick={this.props.handleDelete} >Delete</Button> 
+                    </td>    
                  </tr>    
             )    
        }     

@@ -23,6 +23,7 @@ export class AuthorList extends Component {
         this.executeOnSubmitAuthorForm = this.executeOnSubmitAuthorForm.bind(this)
         this.handleViewEdit = this.handleViewEdit.bind(this)
         this.showViewEditAuthor = this.showViewEditAuthor.bind(this)
+        this.handleDelete = this.handleDelete.bind(this)
     }
 
     getAuthorsFromApiAsync(){
@@ -64,6 +65,22 @@ export class AuthorList extends Component {
         })
     }
 
+    handleDelete(e,apiURI){
+        console.log('author to be deleted->',apiURI)
+        fetch(apiURI, {
+            method: "DELETE",
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            })
+        }).then(()=>{
+            this.getAuthorsFromApiAsync() 
+        })
+        .catch((error) => {
+            console.error(error);
+          })
+         
+    }
+
     executeOnSubmitAuthorForm(e){
         this.handleHideAuthorForm(e)
         this.getAuthorsFromApiAsync()
@@ -95,7 +112,8 @@ export class AuthorList extends Component {
                                     firstName={author.firstName} 
                                     lastName={author.lastName} 
                                     key={author._links.author.href}
-                                    handleViewEdit={(evt) => this.handleViewEdit(evt,author._links.author.href)}/>
+                                    handleViewEdit={(evt) => this.handleViewEdit(evt,author._links.author.href)}
+                                    handleDelete={(evt) => this.handleDelete(evt,author._links.author.href)}/>
                     },this)
                 }
 
@@ -106,7 +124,7 @@ export class AuthorList extends Component {
                     <tr>
                         <th>First name</th>
                         <th>Last name</th>
-                        <th></th>
+                        <th colSpan="2"> Actions</th>
                     </tr>
                 </thead>
                 <tbody>    

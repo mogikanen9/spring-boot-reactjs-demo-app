@@ -6,7 +6,6 @@ import { Home } from './components/ui/home/Home'
 import  { Whoops404 } from './components/ui/err/Whoops404'
 
 import { AuthorList } from './components/ui/author/AuthorList'
-import { AuthorForm } from './components/ui/author/AuthorForm'
 
 import { BookList } from './components/ui/book/BookList'
 
@@ -17,8 +16,7 @@ const routes = (
         <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/home" component={Home} />
-            <Route exact path="/authors" component={AuthorList} />
-            <Route path="/authors/create" component={AuthorForm} />
+            <Route path="/authors" component={AuthorList} />
             <Route path="/books" component={BookList} />
             <Route path="/publishers" component={PublisherList} />
             <Route path="*" component={Whoops404} />

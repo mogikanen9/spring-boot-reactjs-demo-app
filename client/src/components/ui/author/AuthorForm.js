@@ -9,7 +9,9 @@ export class AuthorForm extends Component{
         super(props)
         this.state={
                 firstName: "",
-                lastName: ""
+                lastName: "",
+                handleCancel: this.props.handleCancel,
+                executeOnSubmit: this.props.executeOnSubmit
         }
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
@@ -50,7 +52,7 @@ export class AuthorForm extends Component{
                 firstName: "",
                 lastName: ""
             })
-            this.context.router.history.push('/authors')
+            this.state.executeOnSubmit(e)
           }).catch((error) => {
             console.error(error);
           })
@@ -86,7 +88,7 @@ export class AuthorForm extends Component{
                                     <div className="form-group">
                                         <Button 
                                             bsStyle="default"
-                                            href="/#/authors">
+                                            onClick={this.state.handleCancel}>
                                             Cancel
                                             </Button>
                                         <Button 

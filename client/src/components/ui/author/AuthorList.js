@@ -2,7 +2,8 @@ import { Component } from 'react'
 import fetch from 'isomorphic-fetch'
 import { AuthorListRow } from './AuthorListRow'
 import {CustomPageHeader} from '../CustomPageHeader'
-import Jumbotron from 'react-bootstrap/lib/PageHeader'
+import {Button} from 'react-bootstrap'
+import {AuthorForm} from './AuthorForm'
 
 export class AuthorList extends Component {
 
@@ -10,8 +11,15 @@ export class AuthorList extends Component {
         super(props)
         this.state = {
             authors: [],
-            loading: false
+            loading: false,
+            showAuthorForm: false
         }
+
+        this.handleShowAuthorForm = this.handleShowAuthorForm.bind(this)
+        this.showAuthorForm = this.showAuthorForm.bind(this)
+        this.showAuthorList = this.showAuthorList.bind(this)
+        this.handleHideAuthorForm = this.handleHideAuthorForm.bind(this)
+        this.executeOnSubmitAuthorForm = this.executeOnSubmitAuthorForm.bind(this)
     }
 
     getAuthorsFromApiAsync(){
@@ -33,43 +41,81 @@ export class AuthorList extends Component {
        this.getAuthorsFromApiAsync()
     }
 
-    render() {
+    handleShowAuthorForm(e){
+        this.setState({
+            showAuthorForm: true
+        })
+    }
 
-        {(this.state.loading) ?
-            <span>loading...</span> :
-            <span>{this.state.authors.length} authors</span>
-        }
+    handleHideAuthorForm(e){
+        this.setState({
+            showAuthorForm: false
+        })
+    }
+
+    executeOnSubmitAuthorForm(e){
+        this.handleHideAuthorForm(e)
+        this.getAuthorsFromApiAsync()
+    }
+
+    showAuthorForm(){
+        return <AuthorForm 
+                        handleCancel={this.handleHideAuthorForm} 
+                        executeOnSubmit={this.executeOnSubmitAuthorForm}/> 
+    }
+
+   
+
+    showAuthorList(){
 
         let authorsListRows = <tr><td colSpan="2">Currently 0 Authors</td></tr>
+        
+                if(this.state.authors.length>0){
+                    authorsListRows = this.state.authors.map(function(author){
+                        return <AuthorListRow 
+                                    firstName={author.firstName} 
+                                    lastName={author.lastName} 
+                                    key={author._links.author.href}/>
+                    })
+                }
 
-        if(this.state.authors.length>0){
-            authorsListRows = this.state.authors.map(function(author){
-                return <AuthorListRow 
-                            firstName={author.firstName} 
-                            lastName={author.lastName} 
-                            key={author._links.author.href}/>
-            })
+        return (
+            <div>
+                <table className=".table">
+                <thead>
+                    <tr>
+                        <th>First name</th>
+                        <th>Last name</th>
+                    </tr>
+                </thead>
+                <tbody>    
+                {authorsListRows}
+                </tbody>   
+            </table>
+                <p>
+                    <Button onClick={this.handleShowAuthorForm}
+                            bsStyle="default"> Add Author </Button>
+            </p> 
+         </div>   
+        )
+    }
+
+    render() {
+
+        let displayElement = null
+
+        if(this.state.showAuthorForm===true){
+            displayElement = this.showAuthorForm()
+        }else{
+            displayElement = this.showAuthorList()
         }
 
         return (
             <div className="container">
-                 <CustomPageHeader headerTitle="Authors"/>
+                 <CustomPageHeader headerTitle="Manage Authors"/>
                  <div className="row">
                      <div className="col-md-12">
-                            <table className=".table">
-                                <thead>
-                                    <tr>
-                                        <th>First name</th>
-                                        <th>Last name</th>
-                                    </tr>
-                                </thead>
-                                <tbody>    
-                                {authorsListRows}
-                                </tbody>   
-                            </table>
-                            <p>
-                                <a href="#/authors/create"> Add Author </a>
-                          </p>    
+                           {displayElement}
                       </div>  
                 </div>
              </div>    

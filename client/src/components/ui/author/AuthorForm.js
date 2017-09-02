@@ -1,6 +1,6 @@
 import {Component} from 'react'
 import {FieldGroup} from 'react-bootstrap'
-import Button from 'react-bootstrap'
+import {Button} from 'react-bootstrap'
 import fetch from 'isomorphic-fetch'
 import { PropTypes } from 'prop-types'
 
@@ -84,9 +84,17 @@ export class AuthorForm extends Component{
                                                 onChange={this.handleLastNameChange}></input>
                                     </div>
                                     <div className="form-group">
-                                        <button type="submit" 
-                                                className="btn btn-default"
-                                                onClick={this.handleSubmit}>Submit</button>
+                                        <Button 
+                                            bsStyle="default"
+                                            href="/#/authors">
+                                            Cancel
+                                            </Button>
+                                        <Button 
+                                            bsStyle="default"
+                                            type="submit"
+                                            onClick={this.handleSubmit}>
+                                            Submit
+                                            </Button>
                                     </div>     
                                 </form>
                             </div>

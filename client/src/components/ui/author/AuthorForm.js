@@ -42,16 +42,27 @@ export class AuthorForm extends Component{
         this.setState({lastName: e.target.value});
      }
 
+
     handleSubmit(e){
         e.preventDefault()
         let author = {
             firstName: this.state.firstName,
             lastName: this.state.lastName
         }
-        console.log("new author->",author)
+        console.log(" new/updated author->",author)
 
-        fetch('http://localhost:8080/api/v1/authors/', {
-            method: 'POST', 
+        let apiURI = null
+        let apiMethod = null
+        if(this.state.entityLink && this.state.entityLink!==""){
+            apiURI = this.state.entityLink
+            apiMethod = 'PUT'
+        }else{
+           apiURI = 'http://localhost:8080/api/v1/authors/'
+           apiMethod = 'POST' 
+        }
+
+        fetch(apiURI, {
+            method: apiMethod, 
             body: JSON.stringify(author),
             headers: new Headers({
                 'Content-Type': 'application/json'

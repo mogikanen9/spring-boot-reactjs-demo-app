@@ -1,2 +1,6 @@
 # spring-boot-reactjs-demo-app
-Demo Web UI application withSpring Boot backend and React.js front-end
+Demo Web UI application with Spring Boot backend and React.js front-end.
+
+Details:
+ * Uses [React-bootstrap](https://github.com/react-bootstrap/react-bootstrap) UI library
+ * Inspired by Pivotal's ['React.js and Spring Data REST'](https://spring.io/guides/tutorials/react-and-spring-data-rest/) tutorial

@@ -10,8 +10,8 @@ export class AuthorForm extends Component{
         this.state={
                 firstName: "",
                 lastName: "",
-                handleCancel: this.props.handleCancel,
-                executeOnSubmit: this.props.executeOnSubmit
+                //handleCancel: this.props.handleCancel,
+                //executeOnSubmit: this.props.executeOnSubmit
         }
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
@@ -52,7 +52,7 @@ export class AuthorForm extends Component{
                 firstName: "",
                 lastName: ""
             })
-            this.state.executeOnSubmit(e)
+            this.props.executeOnSubmit(e)
           }).catch((error) => {
             console.error(error);
           })
@@ -65,7 +65,7 @@ export class AuthorForm extends Component{
                      <div className="col-md-12">
                         <div className="panel panel-default">
                             <div className="panel-heading">
-                                <h3 className="panel-title">Add Author</h3>
+                                <h3 className="panel-title">{this.props.title}</h3>
                             </div>
                             <div className="panel-body">
                                 <form>
@@ -88,7 +88,7 @@ export class AuthorForm extends Component{
                                     <div className="form-group">
                                         <Button 
                                             bsStyle="default"
-                                            onClick={this.state.handleCancel}>
+                                            onClick={this.props.handleCancel}>
                                             Cancel
                                             </Button>
                                         <Button 
@@ -110,5 +110,6 @@ export class AuthorForm extends Component{
 }
 
 AuthorForm.contextTypes = {
-    router: PropTypes.object.isRequired
+    router: PropTypes.object.isRequired,
+    title: PropTypes.string.isRequired
     }

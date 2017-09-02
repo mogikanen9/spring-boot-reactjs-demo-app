@@ -7,12 +7,13 @@ import {AuthorForm} from './AuthorForm'
 
 export class AuthorList extends Component {
 
+
     constructor(props){
         super(props)
         this.state = {
             authors: [],
             loading: false,
-            showAuthorForm: false
+            action: "list"
         }
 
         this.handleShowAuthorForm = this.handleShowAuthorForm.bind(this)
@@ -20,6 +21,8 @@ export class AuthorList extends Component {
         this.showAuthorList = this.showAuthorList.bind(this)
         this.handleHideAuthorForm = this.handleHideAuthorForm.bind(this)
         this.executeOnSubmitAuthorForm = this.executeOnSubmitAuthorForm.bind(this)
+        this.handleViewEdit = this.handleViewEdit.bind(this)
+        this.showViewEditAuthor = this.showViewEditAuthor.bind(this)
     }
 
     getAuthorsFromApiAsync(){
@@ -43,13 +46,19 @@ export class AuthorList extends Component {
 
     handleShowAuthorForm(e){
         this.setState({
-            showAuthorForm: true
+            action: "create"
         })
     }
 
     handleHideAuthorForm(e){
         this.setState({
-            showAuthorForm: false
+            action: "list"
+        })
+    }
+
+    handleViewEdit(e){
+        this.setState({
+            action: "view-edit"
         })
     }
 
@@ -61,10 +70,17 @@ export class AuthorList extends Component {
     showAuthorForm(){
         return <AuthorForm 
                         handleCancel={this.handleHideAuthorForm} 
-                        executeOnSubmit={this.executeOnSubmitAuthorForm}/> 
+                        executeOnSubmit={this.executeOnSubmitAuthorForm}
+                        title="Add Author"/> 
     }
 
-   
+    showViewEditAuthor(){
+        return <AuthorForm 
+                        handleCancel={this.handleHideAuthorForm} 
+                        executeOnSubmit={this.executeOnSubmitAuthorForm}
+                        title="Modify Author"/> 
+    }
+
 
     showAuthorList(){
 
@@ -75,17 +91,19 @@ export class AuthorList extends Component {
                         return <AuthorListRow 
                                     firstName={author.firstName} 
                                     lastName={author.lastName} 
-                                    key={author._links.author.href}/>
-                    })
+                                    key={author._links.author.href}
+                                    handleViewEdit={this.handleViewEdit}/>
+                    },this)
                 }
 
         return (
             <div>
-                <table className=".table">
+                <table className="table">
                 <thead>
                     <tr>
                         <th>First name</th>
                         <th>Last name</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>    
@@ -104,8 +122,10 @@ export class AuthorList extends Component {
 
         let displayElement = null
 
-        if(this.state.showAuthorForm===true){
+        if(this.state.action==="create"){
             displayElement = this.showAuthorForm()
+        }else if(this.state.action==="view-edit"){
+            displayElement = this.showViewEditAuthor()
         }else{
             displayElement = this.showAuthorList()
         }

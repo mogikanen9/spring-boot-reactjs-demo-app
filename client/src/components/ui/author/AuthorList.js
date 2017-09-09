@@ -13,7 +13,8 @@ export class AuthorList extends Component {
         this.state = {
             authors: [],
             loading: false,
-            action: "list"
+            action: "list",
+            listRequestUrl: `http://localhost:8080/api/v1/authors?size=5`
         }
 
         this.handleShowAuthorForm = this.handleShowAuthorForm.bind(this)
@@ -24,15 +25,16 @@ export class AuthorList extends Component {
         this.handleViewEdit = this.handleViewEdit.bind(this)
         this.showViewEditAuthor = this.showViewEditAuthor.bind(this)
         this.handleDelete = this.handleDelete.bind(this)
+        this.handleControlLinksClick = this.handleControlLinksClick.bind(this)
     }
 
     getAuthorsFromApiAsync(){
     
-        const pageSize = 5
-        const requestURL = `http://localhost:8080/api/v1/authors?size=${pageSize}`
-
+        //const pageSize = 5
+        //const requestURL = `http://localhost:8080/api/v1/authors?size=${pageSize}`
+        console.log(`fetching data from API url->${this.state.listRequestUrl}`)
         this.setState({loading: true})
-         fetch(requestURL,{
+         fetch(this.state.listRequestUrl,{
              method: 'GET',
              mode: 'cors',
              cache: 'default'
@@ -48,6 +50,14 @@ export class AuthorList extends Component {
           }).catch((error) => {
             console.error(error);
           })
+    }
+
+    handleControlLinksClick(newUrl){
+        console.log(`new url->${newUrl}`)
+        this.setState({
+            listRequestUrl: newUrl
+        })
+        this.getAuthorsFromApiAsync()
     }
 
     componentDidMount(){
@@ -125,9 +135,25 @@ export class AuthorList extends Component {
                                     handleDelete={(evt) => this.handleDelete(evt,author._links.author.href)}/>
                     },this)
                 }
-        let controlBtns = <br />
+       
+        let btnFirst = ''
+        let btnNext = ''
+        let btnLast = ''
         if(this.state.controlLinks){
-            controlBtns = <a href={this.state.controlLinks.next.href}> Next </a>
+            if(this.state.controlLinks.next){
+                btnNext = <Button onClick={(evt) => this.handleControlLinksClick(this.state.controlLinks.next.href)}
+                bsStyle="default"> Next </Button>
+            }
+
+            if(this.state.controlLinks.first){
+                btnFirst = <Button onClick={(evt) => this.handleControlLinksClick(this.state.controlLinks.first.href)}
+                bsStyle="default"> First </Button>
+            }
+          
+            if(this.state.controlLinks.last){
+                btnLast = <Button onClick={(evt) => this.handleControlLinksClick(this.state.controlLinks.last.href)}
+                bsStyle="default"> Last </Button>
+            }
         }
                 
 
@@ -146,7 +172,7 @@ export class AuthorList extends Component {
                 </tbody>   
             </table>
                 <div>
-                    {controlBtns}
+                    {btnFirst}{btnNext}{btnLast}
                 </div>    
                 <p>
                     <Button onClick={this.handleShowAuthorForm}

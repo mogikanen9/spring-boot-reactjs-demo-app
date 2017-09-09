@@ -27,14 +27,23 @@ export class AuthorList extends Component {
     }
 
     getAuthorsFromApiAsync(){
+    
+        const pageSize = 5
+        const requestURL = `http://localhost:8080/api/v1/authors?size=${pageSize}`
+
         this.setState({loading: true})
-         fetch('http://localhost:8080/api/v1/authors')
+         fetch(requestURL,{
+             method: 'GET',
+             mode: 'cors',
+             cache: 'default'
+         })
         .then((response) => response.json())
         .then((responseJson) => {
             console.log("responseJson.authors->",responseJson._embedded.authors)
             this.setState({
                     loading: false,
-                    authors: responseJson._embedded.authors
+                    authors: responseJson._embedded.authors,
+                    controlLinks: responseJson._links
                 })
           }).catch((error) => {
             console.error(error);
@@ -116,6 +125,11 @@ export class AuthorList extends Component {
                                     handleDelete={(evt) => this.handleDelete(evt,author._links.author.href)}/>
                     },this)
                 }
+        let controlBtns = <br />
+        if(this.state.controlLinks){
+            controlBtns = <a href={this.state.controlLinks.next.href}> Next </a>
+        }
+                
 
         return (
             <div>
@@ -131,6 +145,9 @@ export class AuthorList extends Component {
                 {authorsListRows}
                 </tbody>   
             </table>
+                <div>
+                    {controlBtns}
+                </div>    
                 <p>
                     <Button onClick={this.handleShowAuthorForm}
                             bsStyle="default"> Add Author </Button>

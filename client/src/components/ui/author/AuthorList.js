@@ -56,8 +56,7 @@ export class AuthorList extends Component {
         console.log(`new url->${newUrl}`)
         this.setState({
             listRequestUrl: newUrl
-        })
-        this.getAuthorsFromApiAsync()
+        },() => this.getAuthorsFromApiAsync())
     }
 
     componentDidMount(){

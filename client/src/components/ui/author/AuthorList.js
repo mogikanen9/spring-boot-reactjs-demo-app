@@ -2,7 +2,7 @@ import { Component } from 'react'
 import fetch from 'isomorphic-fetch'
 import { AuthorListRow } from './AuthorListRow'
 import {CustomPageHeader} from '../CustomPageHeader'
-import {Button} from 'react-bootstrap'
+import {Button, ButtonToolbar} from 'react-bootstrap'
 import {AuthorForm} from './AuthorForm'
 
 export class AuthorList extends Component {
@@ -172,12 +172,17 @@ export class AuthorList extends Component {
                 </tbody>   
             </table>
                 <div>
-                    {btnFirst}{btnNext}{btnLast}
+                    <ButtonToolbar>
+                        {btnFirst}{btnNext}{btnLast}
+                    </ButtonToolbar>
+                    <br/>
                 </div>    
-                <p>
-                    <Button onClick={this.handleShowAuthorForm}
-                            bsStyle="default"> Add Author </Button>
-            </p> 
+                <div>
+                    <ButtonToolbar>
+                        <Button onClick={this.handleShowAuthorForm}
+                            bsStyle="primary"> Add Author </Button>
+                    </ButtonToolbar>        
+                </div> 
          </div>   
         )
     }

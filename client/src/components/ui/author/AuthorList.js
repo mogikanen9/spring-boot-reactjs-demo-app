@@ -2,8 +2,10 @@ import { Component } from 'react'
 import fetch from 'isomorphic-fetch'
 import { AuthorListRow } from './AuthorListRow'
 import {CustomPageHeader} from '../CustomPageHeader'
-import {Button} from 'react-bootstrap'
+import {Button, ButtonToolbar, FormControl, ControlLabel} from 'react-bootstrap'
 import {AuthorForm} from './AuthorForm'
+
+const API_URL_AUTHORS = "http://localhost:8080/api/v1/authors?size="
 
 export class AuthorList extends Component {
 
@@ -13,7 +15,9 @@ export class AuthorList extends Component {
         this.state = {
             authors: [],
             loading: false,
-            action: "list"
+            action: "list",
+            pageSize: this.props.pageSize,
+            listRequestUrl: API_URL_AUTHORS + this.props.pageSize
         }
 
         this.handleShowAuthorForm = this.handleShowAuthorForm.bind(this)
@@ -24,21 +28,40 @@ export class AuthorList extends Component {
         this.handleViewEdit = this.handleViewEdit.bind(this)
         this.showViewEditAuthor = this.showViewEditAuthor.bind(this)
         this.handleDelete = this.handleDelete.bind(this)
+        this.handleControlLinksClick = this.handleControlLinksClick.bind(this)
+        this.handlePageSizeCtrlChange = this.handlePageSizeCtrlChange.bind(this)
+        this.handlePageSizeCtrlSet = this.handlePageSizeCtrlSet.bind(this)
     }
 
     getAuthorsFromApiAsync(){
+    
+        //const pageSize = 5
+        //const requestURL = `http://localhost:8080/api/v1/authors?size=${pageSize}`
+        console.log(`fetching data from API url->${this.state.listRequestUrl}`)
         this.setState({loading: true})
-         fetch('http://localhost:8080/api/v1/authors')
+         fetch(this.state.listRequestUrl,{
+             method: 'GET',
+             mode: 'cors',
+             cache: 'default'
+         })
         .then((response) => response.json())
         .then((responseJson) => {
             console.log("responseJson.authors->",responseJson._embedded.authors)
             this.setState({
                     loading: false,
-                    authors: responseJson._embedded.authors
+                    authors: responseJson._embedded.authors,
+                    controlLinks: responseJson._links
                 })
           }).catch((error) => {
             console.error(error);
           })
+    }
+
+    handleControlLinksClick(newUrl){
+        console.log(`new url->${newUrl}`)
+        this.setState({
+            listRequestUrl: newUrl
+        },() => this.getAuthorsFromApiAsync())
     }
 
     componentDidMount(){
@@ -101,9 +124,24 @@ export class AuthorList extends Component {
                         entityLink={this.state.entityLink}/> 
     }
 
+    handlePageSizeCtrlChange(evt){
+        this.setState({
+            pageSize: evt.target.value
+        },()=>console.log("new page size->"+this.state.pageSize))
+    }
+
+    handlePageSizeCtrlSet(){
+        var newPageSize = this.state.pageSize
+        if(newPageSize){
+            this.setState({
+                listRequestUrl: API_URL_AUTHORS + newPageSize
+            },() => this.getAuthorsFromApiAsync())
+        }
+    }
 
     showAuthorList(){
 
+        //=========================== table rows ======================
         let authorsListRows = <tr><td colSpan="2">Currently 0 Authors</td></tr>
         
                 if(this.state.authors.length>0){
@@ -116,9 +154,55 @@ export class AuthorList extends Component {
                                     handleDelete={(evt) => this.handleDelete(evt,author._links.author.href)}/>
                     },this)
                 }
+       
+        //=========================== button controls ======================        
+        let btnFirst = ''
+        let btnNext = ''
+        let btnLast = ''
+        if(this.state.controlLinks){
+            if(this.state.controlLinks.next){
+                btnNext = <Button onClick={(evt) => this.handleControlLinksClick(this.state.controlLinks.next.href)}
+                bsStyle="default"> Next</Button>
+            }
 
+            if(this.state.controlLinks.first){
+                btnFirst = <Button onClick={(evt) => this.handleControlLinksClick(this.state.controlLinks.first.href)}
+                bsStyle="default"> First </Button>
+            }
+          
+            if(this.state.controlLinks.last){
+                btnLast = <Button onClick={(evt) => this.handleControlLinksClick(this.state.controlLinks.last.href)}
+                bsStyle="default"> Last </Button>
+            }
+
+        }
+                
+        //=========================== page size ======================
+
+        const pageSizeCtrl = (
+                            <div className="panel panel-default">
+                                <div className="panel-body"> 
+                                    <form className="form-inline">
+                                        <div className="form-group">
+                                            <label className="control-label" 
+                                                    for="pageSizeCtrl">Page size:</label>
+                                                    &nbsp;        
+                                            <input type="text"
+                                                    size="5"
+                                                    className="form-control" 
+                                                    id="pageSizeCtrl"
+                                                    value={this.state.pageSize}
+                                                    onChange={this.handlePageSizeCtrlChange}></input>
+                                                    <Button onClick={(evt)=>this.handlePageSizeCtrlSet()}>Set</Button>        
+                                                </div>
+                                    </form>
+                                </div>
+                            </div>    
+        )     
+                           
         return (
             <div>
+                {pageSizeCtrl}
                 <table className="table">
                 <thead>
                     <tr>
@@ -131,10 +215,18 @@ export class AuthorList extends Component {
                 {authorsListRows}
                 </tbody>   
             </table>
-                <p>
-                    <Button onClick={this.handleShowAuthorForm}
-                            bsStyle="default"> Add Author </Button>
-            </p> 
+                <div>
+                    <ButtonToolbar>
+                        {btnFirst}{btnNext}{btnLast}
+                    </ButtonToolbar>
+                    <br/>
+                </div>    
+                <div>
+                    <ButtonToolbar>
+                        <Button onClick={this.handleShowAuthorForm}
+                            bsStyle="primary"> Add Author </Button>
+                    </ButtonToolbar>        
+                </div> 
          </div>   
         )
     }

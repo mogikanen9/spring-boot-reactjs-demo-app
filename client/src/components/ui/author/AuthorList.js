@@ -2,7 +2,7 @@ import { Component } from 'react'
 import fetch from 'isomorphic-fetch'
 import { AuthorListRow } from './AuthorListRow'
 import {CustomPageHeader} from '../CustomPageHeader'
-import {Button, ButtonToolbar} from 'react-bootstrap'
+import {Button, ButtonToolbar, FormControl, ControlLabel} from 'react-bootstrap'
 import {AuthorForm} from './AuthorForm'
 
 export class AuthorList extends Component {
@@ -14,7 +14,8 @@ export class AuthorList extends Component {
             authors: [],
             loading: false,
             action: "list",
-            listRequestUrl: `http://localhost:8080/api/v1/authors?size=5`
+            pageSize: this.props.pageSize,
+            listRequestUrl: `http://localhost:8080/api/v1/authors?size=`+this.props.pageSize
         }
 
         this.handleShowAuthorForm = this.handleShowAuthorForm.bind(this)
@@ -26,6 +27,8 @@ export class AuthorList extends Component {
         this.showViewEditAuthor = this.showViewEditAuthor.bind(this)
         this.handleDelete = this.handleDelete.bind(this)
         this.handleControlLinksClick = this.handleControlLinksClick.bind(this)
+        this.handlePageSizeCtrlChange = this.handlePageSizeCtrlChange.bind(this)
+        this.handlePageSizeCtrlSet = this.handlePageSizeCtrlSet.bind(this)
     }
 
     getAuthorsFromApiAsync(){
@@ -119,9 +122,26 @@ export class AuthorList extends Component {
                         entityLink={this.state.entityLink}/> 
     }
 
+    handlePageSizeCtrlChange(evt){
+        this.setState({
+            pageSize: evt.target.value
+        },function(){
+            console.log("new page size->"+this.state.pageSize)
+        })
+    }
+
+    handlePageSizeCtrlSet(){
+        var newPageSize = this.state.pageSize
+        if(newPageSize){
+            this.setState({
+                listRequestUrl: `http://localhost:8080/api/v1/authors?size=`+newPageSize
+            },this.getAuthorsFromApiAsync())
+        }
+    }
 
     showAuthorList(){
 
+        //=========================== table rows ======================
         let authorsListRows = <tr><td colSpan="2">Currently 0 Authors</td></tr>
         
                 if(this.state.authors.length>0){
@@ -135,6 +155,7 @@ export class AuthorList extends Component {
                     },this)
                 }
        
+        //=========================== button controls ======================        
         let btnFirst = ''
         let btnNext = ''
         let btnLast = ''
@@ -155,9 +176,26 @@ export class AuthorList extends Component {
             }
         }
                 
+        //=========================== page size ======================
+
+        const pageSizeCtrl = (
+                                <div> 
+                                    <div className="form-group">
+                                        <label htmlFor="pageSizeCtrl">Page size:</label>
+                                        <input type="text" 
+                                                className="form-control" 
+                                                id="pageSizeCtrl"
+                                                value={this.state.pageSize}
+                                                onChange={this.handlePageSizeCtrlChange}></input>
+                                    </div>
+                                    <Button onClick={(evt)=>this.handlePageSizeCtrlSet()}>Set</Button>
+                                </div>
+        )     
+                           
 
         return (
             <div>
+                {pageSizeCtrl}
                 <table className="table">
                 <thead>
                     <tr>

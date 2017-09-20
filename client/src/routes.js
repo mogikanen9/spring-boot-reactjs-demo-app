@@ -11,12 +11,16 @@ import { BookList } from './components/ui/book/BookList'
 
 import { PublisherList } from './components/ui/publisher/PublisherList'
 
+function authorList(){
+   return (<AuthorList pageSize="6"/>)
+}
+
 const routes = (
     <Router>
         <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/home" component={Home} />
-            <Route path="/authors" component={AuthorList} />
+            <Route path="/authors" component={authorList} />
             <Route path="/books" component={BookList} />
             <Route path="/publishers" component={PublisherList} />
             <Route path="*" component={Whoops404} />

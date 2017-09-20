@@ -125,9 +125,7 @@ export class AuthorList extends Component {
     handlePageSizeCtrlChange(evt){
         this.setState({
             pageSize: evt.target.value
-        },function(){
-            console.log("new page size->"+this.state.pageSize)
-        })
+        },()=>console.log("new page size->"+this.state.pageSize))
     }
 
     handlePageSizeCtrlSet(){
@@ -135,7 +133,7 @@ export class AuthorList extends Component {
         if(newPageSize){
             this.setState({
                 listRequestUrl: `http://localhost:8080/api/v1/authors?size=`+newPageSize
-            },this.getAuthorsFromApiAsync())
+            },() => this.getAuthorsFromApiAsync())
         }
     }
 

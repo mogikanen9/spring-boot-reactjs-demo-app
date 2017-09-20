@@ -5,6 +5,8 @@ import {CustomPageHeader} from '../CustomPageHeader'
 import {Button, ButtonToolbar, FormControl, ControlLabel} from 'react-bootstrap'
 import {AuthorForm} from './AuthorForm'
 
+const API_URL_AUTHORS = "http://localhost:8080/api/v1/authors?size="
+
 export class AuthorList extends Component {
 
 
@@ -15,7 +17,7 @@ export class AuthorList extends Component {
             loading: false,
             action: "list",
             pageSize: this.props.pageSize,
-            listRequestUrl: `http://localhost:8080/api/v1/authors?size=`+this.props.pageSize
+            listRequestUrl: API_URL_AUTHORS + this.props.pageSize
         }
 
         this.handleShowAuthorForm = this.handleShowAuthorForm.bind(this)
@@ -132,7 +134,7 @@ export class AuthorList extends Component {
         var newPageSize = this.state.pageSize
         if(newPageSize){
             this.setState({
-                listRequestUrl: `http://localhost:8080/api/v1/authors?size=`+newPageSize
+                listRequestUrl: API_URL_AUTHORS + newPageSize
             },() => this.getAuthorsFromApiAsync())
         }
     }
@@ -160,7 +162,7 @@ export class AuthorList extends Component {
         if(this.state.controlLinks){
             if(this.state.controlLinks.next){
                 btnNext = <Button onClick={(evt) => this.handleControlLinksClick(this.state.controlLinks.next.href)}
-                bsStyle="default"> Next </Button>
+                bsStyle="default"> Next</Button>
             }
 
             if(this.state.controlLinks.first){
@@ -172,25 +174,32 @@ export class AuthorList extends Component {
                 btnLast = <Button onClick={(evt) => this.handleControlLinksClick(this.state.controlLinks.last.href)}
                 bsStyle="default"> Last </Button>
             }
+
         }
                 
         //=========================== page size ======================
 
         const pageSizeCtrl = (
-                                <div> 
-                                    <div className="form-group">
-                                        <label htmlFor="pageSizeCtrl">Page size:</label>
-                                        <input type="text" 
-                                                className="form-control" 
-                                                id="pageSizeCtrl"
-                                                value={this.state.pageSize}
-                                                onChange={this.handlePageSizeCtrlChange}></input>
-                                    </div>
-                                    <Button onClick={(evt)=>this.handlePageSizeCtrlSet()}>Set</Button>
+                            <div className="panel panel-default">
+                                <div className="panel-body"> 
+                                    <form className="form-inline">
+                                        <div className="form-group">
+                                            <label className="control-label" 
+                                                    for="pageSizeCtrl">Page size:</label>
+                                                    &nbsp;        
+                                            <input type="text"
+                                                    size="5"
+                                                    className="form-control" 
+                                                    id="pageSizeCtrl"
+                                                    value={this.state.pageSize}
+                                                    onChange={this.handlePageSizeCtrlChange}></input>
+                                                    <Button onClick={(evt)=>this.handlePageSizeCtrlSet()}>Set</Button>        
+                                                </div>
+                                    </form>
                                 </div>
+                            </div>    
         )     
                            
-
         return (
             <div>
                 {pageSizeCtrl}

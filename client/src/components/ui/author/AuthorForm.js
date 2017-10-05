@@ -3,6 +3,7 @@ import {FieldGroup} from 'react-bootstrap'
 import {Button} from 'react-bootstrap'
 import fetch from 'isomorphic-fetch'
 import { PropTypes } from 'prop-types'
+import { AuthorFormErrors} from './AuthorFormErrors'
 
 export class AuthorForm extends Component{
     constructor(props){
@@ -94,6 +95,9 @@ export class AuthorForm extends Component{
                         <div className="panel panel-default">
                             <div className="panel-heading">
                                 <h3 className="panel-title">{this.props.title}</h3>
+                            </div>
+                            <div className="panel panel-default">
+                                <AuthorFormErrors formErrors={this.state.formErrors} />
                             </div>
                             <div className="panel-body">
                                 <form>

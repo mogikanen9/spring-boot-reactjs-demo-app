@@ -10,7 +10,10 @@ export class AuthorForm extends Component{
         this.state={
                 firstName: "",
                 lastName: "",
-                entityLink: this.props.entityLink || ""
+                entityLink: this.props.entityLink || "",
+                formErrors: {firstName:"", lastName: ""},
+                firstNameValid: false,
+                lastNameValid: false
         }
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
@@ -26,7 +29,9 @@ export class AuthorForm extends Component{
                 console.log("responseJson",responseJson)
                 this.setState({
                         firstName: responseJson.firstName,
-                        lastName: responseJson.lastName
+                        lastName: responseJson.lastName,
+                        firstNameValid: true,
+                        lastNameValid: true
                     })
               }).catch((error) => {
                 console.error(error);
@@ -35,11 +40,11 @@ export class AuthorForm extends Component{
     }
 
     handleFirstNameChange(e) {
-        this.setState({firstName: e.target.value});
+        this.setState({firstName: e.target.value, firstNameValid:true});
      }
 
      handleLastNameChange(e) {
-        this.setState({lastName: e.target.value});
+        this.setState({lastName: e.target.value, lastNameValid:true});
      }
 
 
@@ -117,6 +122,8 @@ export class AuthorForm extends Component{
                                         <Button 
                                             bsStyle="default"
                                             type="submit"
+                                            disabled={!(this.state.firstNameValid &&
+                                                        this.state.lastNameValid)}
                                             onClick={this.handleSubmit}>
                                             Submit
                                             </Button>

@@ -12,13 +12,14 @@ export class AuthorForm extends Component{
                 firstName: "",
                 lastName: "",
                 entityLink: this.props.entityLink || "",
-                formErrors: {firstName:"", lastName: ""},
+                formErrors: [],
                 firstNameValid: false,
                 lastNameValid: false
         }
         this.handleSubmit = this.handleSubmit.bind(this)
-        this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
-        this.handleLastNameChange = this.handleLastNameChange.bind(this);
+        this.handleFirstNameChange = this.handleFirstNameChange.bind(this)
+        this.handleLastNameChange = this.handleLastNameChange.bind(this)
+        this.isValidFormData = this.isValidFormData.bind(this)
     }
 
     componentDidMount(){
@@ -49,13 +50,39 @@ export class AuthorForm extends Component{
      }
 
 
+     isValidName(name){
+         return /^[a-zA-Z ]+$/.test(name)
+     }
+
+     isValidFormData(author){
+        
+        let errors = []
+
+        if(!this.isValidName(author.firstName)){
+            errors.push({fieldName:"firstName", 
+                        msg:"Invalid FN. Only alpha caracters are allowed!"})
+        }
+
+        if(!this.isValidName(author.lastName)){
+            errors.push({fieldName:"lastName", 
+                        msg:"Invalid LN. Only alpha caracters are allowed!"})
+        }
+
+        this.setState({formErrors:errors}) 
+
+        return errors.length==0
+     }
+
     handleSubmit(e){
         e.preventDefault()
+
         let author = {
             firstName: this.state.firstName,
             lastName: this.state.lastName
         }
         console.log(" new/updated author->",author)
+
+        if(this.isValidFormData(author)){
 
         let apiURI = null
         let apiMethod = null
@@ -85,6 +112,10 @@ export class AuthorForm extends Component{
           }).catch((error) => {
             console.error(error);
           })
+        }else{
+            console.log("There are validation errrors")
+            return false
+        }
     }
 
     render(){
@@ -96,10 +127,11 @@ export class AuthorForm extends Component{
                             <div className="panel-heading">
                                 <h3 className="panel-title">{this.props.title}</h3>
                             </div>
-                            <div className="panel panel-default">
-                                <AuthorFormErrors formErrors={this.state.formErrors} />
-                            </div>
                             <div className="panel-body">
+                                <div className="panel panel-default">
+                                    <AuthorFormErrors 
+                                            formErrors={this.state.formErrors} />
+                                </div>
                                 <form>
                                     <div className="form-group">
                                         <label htmlFor="firstName">First name:</label>

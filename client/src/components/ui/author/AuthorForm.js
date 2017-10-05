@@ -3,6 +3,7 @@ import {FieldGroup} from 'react-bootstrap'
 import {Button} from 'react-bootstrap'
 import fetch from 'isomorphic-fetch'
 import { PropTypes } from 'prop-types'
+import { AuthorFormErrors} from './AuthorFormErrors'
 
 export class AuthorForm extends Component{
     constructor(props){
@@ -10,11 +11,15 @@ export class AuthorForm extends Component{
         this.state={
                 firstName: "",
                 lastName: "",
-                entityLink: this.props.entityLink || ""
+                entityLink: this.props.entityLink || "",
+                formErrors: [],
+                firstNameValid: false,
+                lastNameValid: false
         }
         this.handleSubmit = this.handleSubmit.bind(this)
-        this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
-        this.handleLastNameChange = this.handleLastNameChange.bind(this);
+        this.handleFirstNameChange = this.handleFirstNameChange.bind(this)
+        this.handleLastNameChange = this.handleLastNameChange.bind(this)
+        this.isValidFormData = this.isValidFormData.bind(this)
     }
 
     componentDidMount(){
@@ -26,7 +31,9 @@ export class AuthorForm extends Component{
                 console.log("responseJson",responseJson)
                 this.setState({
                         firstName: responseJson.firstName,
-                        lastName: responseJson.lastName
+                        lastName: responseJson.lastName,
+                        firstNameValid: true,
+                        lastNameValid: true
                     })
               }).catch((error) => {
                 console.error(error);
@@ -35,21 +42,47 @@ export class AuthorForm extends Component{
     }
 
     handleFirstNameChange(e) {
-        this.setState({firstName: e.target.value});
+        this.setState({firstName: e.target.value, firstNameValid:true});
      }
 
      handleLastNameChange(e) {
-        this.setState({lastName: e.target.value});
+        this.setState({lastName: e.target.value, lastNameValid:true});
      }
 
 
+     isValidName(name){
+         return /^[a-zA-Z ]+$/.test(name)
+     }
+
+     isValidFormData(author){
+        
+        let errors = []
+
+        if(!this.isValidName(author.firstName)){
+            errors.push({fieldName:"firstName", 
+                        msg:"Invalid FN. Only alpha caracters are allowed!"})
+        }
+
+        if(!this.isValidName(author.lastName)){
+            errors.push({fieldName:"lastName", 
+                        msg:"Invalid LN. Only alpha caracters are allowed!"})
+        }
+
+        this.setState({formErrors:errors}) 
+
+        return errors.length==0
+     }
+
     handleSubmit(e){
         e.preventDefault()
+
         let author = {
             firstName: this.state.firstName,
             lastName: this.state.lastName
         }
         console.log(" new/updated author->",author)
+
+        if(this.isValidFormData(author)){
 
         let apiURI = null
         let apiMethod = null
@@ -79,6 +112,10 @@ export class AuthorForm extends Component{
           }).catch((error) => {
             console.error(error);
           })
+        }else{
+            console.log("There are validation errrors")
+            return false
+        }
     }
 
     render(){
@@ -91,6 +128,10 @@ export class AuthorForm extends Component{
                                 <h3 className="panel-title">{this.props.title}</h3>
                             </div>
                             <div className="panel-body">
+                                <div className="panel panel-default">
+                                    <AuthorFormErrors 
+                                            formErrors={this.state.formErrors} />
+                                </div>
                                 <form>
                                     <div className="form-group">
                                         <label htmlFor="firstName">First name:</label>
@@ -117,6 +158,8 @@ export class AuthorForm extends Component{
                                         <Button 
                                             bsStyle="default"
                                             type="submit"
+                                            disabled={!(this.state.firstNameValid &&
+                                                        this.state.lastNameValid)}
                                             onClick={this.handleSubmit}>
                                             Submit
                                             </Button>

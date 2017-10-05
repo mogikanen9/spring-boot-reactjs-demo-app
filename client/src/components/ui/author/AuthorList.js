@@ -35,8 +35,6 @@ export class AuthorList extends Component {
 
     getAuthorsFromApiAsync(){
     
-        //const pageSize = 5
-        //const requestURL = `http://localhost:8080/api/v1/authors?size=${pageSize}`
         console.log(`fetching data from API url->${this.state.listRequestUrl}`)
         this.setState({loading: true})
          fetch(this.state.listRequestUrl,{
@@ -125,9 +123,11 @@ export class AuthorList extends Component {
     }
 
     handlePageSizeCtrlChange(evt){
-        this.setState({
-            pageSize: evt.target.value
-        },()=>console.log("new page size->"+this.state.pageSize))
+
+        let pageSizeValue = evt.target.value
+                this.setState({
+                    pageSize: pageSizeValue
+                },()=>console.log("new page size->"+this.state.pageSize))
     }
 
     handlePageSizeCtrlSet(){
@@ -185,7 +185,7 @@ export class AuthorList extends Component {
                                     <form className="form-inline">
                                         <div className="form-group">
                                             <label className="control-label" 
-                                                    for="pageSizeCtrl">Page size:</label>
+                                                    htmlFor="pageSizeCtrl">Page size:</label>
                                                     &nbsp;        
                                             <input type="text"
                                                     size="5"

@@ -25,7 +25,8 @@ export class AuthorForm extends Component{
     componentDidMount(){
         console.log('mounted, entityLink->',this.state.entityLink)
         if(this.state.entityLink && this.state.entityLink!==""){
-            fetch(this.state.entityLink)
+            fetch(this.state.entityLink,
+                {credentials: 'same-origin'})
             .then((response) => response.json())
             .then((responseJson) => {
                 console.log("responseJson",responseJson)
@@ -95,7 +96,8 @@ export class AuthorForm extends Component{
         }
 
         fetch(apiURI, {
-            method: apiMethod, 
+            method: apiMethod,
+            credentials: 'same-origin',
             body: JSON.stringify(author),
             headers: new Headers({
                 'Content-Type': 'application/json'

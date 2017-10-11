@@ -33,7 +33,7 @@ dependencies {
 	compile("org.springframework.boot:spring-boot-starter-security")
 		
 	compile("org.springframework.boot:spring-boot-starter-thymeleaf")
-	compile("org.springframework.boot:thymeleaf-extras-springsecurity4")
+	//compile("org.springframework.boot:thymeleaf-extras-springsecurity4")
 	
 
 	runtime('com.h2database:h2')

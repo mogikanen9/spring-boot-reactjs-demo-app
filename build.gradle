@@ -29,7 +29,7 @@ dependencies {
 	compile ('org.springframework.data:spring-data-rest-hal-browser')
 	compile('org.springframework.boot:spring-boot-starter-actuator')
 	compile("org.springframework.boot:spring-boot-devtools")
-	//compile("org.springframework.boot:spring-boot-starter-security")
+	compile("org.springframework.boot:spring-boot-starter-security")
 	
 	
 	runtime('com.h2database:h2')

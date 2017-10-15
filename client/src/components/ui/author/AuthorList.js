@@ -9,7 +9,6 @@ const API_URL_AUTHORS = "http://localhost:8080/api/v1/authors?size="
 
 export class AuthorList extends Component {
 
-
     constructor(props){
         super(props)
         this.state = {

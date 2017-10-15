@@ -54,7 +54,26 @@ task updateFrontEndArtifacts(type: Copy) {
    into destFolder
    include("**/*.*")
 
-   print "Task updateFrontEndArtifacts execution is over."
+   println "Task updateFrontEndArtifacts execution is over."
 }
 
 processResources.dependsOn updateFrontEndArtifacts
+
+import org.gradle.internal.os.OperatingSystem
+task buildFrontEndArtifacts(type:Exec) {
+
+  println "Executing buildFrontEndArtifacts task  on OS: "+OperatingSystem.current()
+
+  workingDir 'client'
+
+  //Windows default
+  commandLine 'cmd', '/c', 'npm start'
+
+  if(OperatingSystem.current().isLinux() || OperatingSystem.current().isMacOsX()){
+	commandLine './npm start'
+	}	
+
+   println "Task buildFrontEndArtifacts execution is over."
+}
+
+updateFrontEndArtifacts.dependsOn buildFrontEndArtifacts

@@ -9,7 +9,6 @@ const API_URL_AUTHORS = "http://localhost:8080/api/v1/authors?size="
 
 export class AuthorList extends Component {
 
-
     constructor(props){
         super(props)
         this.state = {
@@ -40,7 +39,8 @@ export class AuthorList extends Component {
          fetch(this.state.listRequestUrl,{
              method: 'GET',
              mode: 'cors',
-             cache: 'default'
+             cache: 'default',
+             credentials: 'same-origin'
          })
         .then((response) => response.json())
         .then((responseJson) => {
@@ -90,11 +90,16 @@ export class AuthorList extends Component {
         console.log('author to be deleted->',apiURI)
         fetch(apiURI, {
             method: "DELETE",
+            credentials: 'same-origin',
             headers: new Headers({
                 'Content-Type': 'application/json'
             })
-        }).then(()=>{
-            this.getAuthorsFromApiAsync() 
+        }).then((response)=>{
+            if(response.ok){
+                this.getAuthorsFromApiAsync() 
+            }else{
+                alert(response.statusText)
+            }
         })
         .catch((error) => {
             console.error(error);

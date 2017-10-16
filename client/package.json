@@ -4,8 +4,8 @@
   "description": "Web UI demo client with Spring Boot REST backend",
   "main": "index.js",
   "scripts": {
-    "prestart": "./node_modules/.bin/webpack",
-    "start": "./node_modules/.bin/webpack-dev-server"
+    "start": "./node_modules/.bin/webpack",
+    "start23": "./node_modules/.bin/webpack-dev-server"
   },
   "author": "mogikanen9",
   "license": "MIT",

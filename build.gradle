@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		springBootVersion = '1.5.6.RELEASE'
+		springBootVersion = '1.5.7.RELEASE'
 	}
 	repositories {
 		mavenCentral()
@@ -14,7 +14,7 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 
-version = '0.0.1-SNAPSHOT'
+version = '0.0.2-SNAPSHOT'
 sourceCompatibility = 1.8
 
 repositories {
@@ -30,6 +30,50 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-actuator')
 	compile("org.springframework.boot:spring-boot-devtools")
 	
+	compile("org.springframework.boot:spring-boot-starter-security")
+		
+	compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+	//compile("org.springframework.boot:thymeleaf-extras-springsecurity4")
+	
+
 	runtime('com.h2database:h2')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
+
+
+task updateFrontEndArtifacts(type: Copy) {
+   println "Executing updateFrontEndArtifacts task ..."
+
+   File jsArtifactFolder = file("client/dist")
+   println "updateFrontEndArtifacts -> $jsArtifactFolder"	
+
+   File destFolder = file("build/resources/main/static")
+   println "destFolder -> $destFolder"	
+
+   from jsArtifactFolder
+   into destFolder
+   include("**/*.*")
+
+   println "Task updateFrontEndArtifacts execution is over."
+}
+
+processResources.dependsOn updateFrontEndArtifacts
+
+import org.gradle.internal.os.OperatingSystem
+task buildFrontEndArtifacts(type:Exec) {
+
+  println "Executing buildFrontEndArtifacts task  on OS: "+OperatingSystem.current()
+
+  workingDir 'client'
+
+  //Windows default
+  commandLine 'cmd', '/c', 'npm start'
+
+  if(OperatingSystem.current().isLinux() || OperatingSystem.current().isMacOsX()){
+	commandLine './npm start'
+	}	
+
+   println "Task buildFrontEndArtifacts execution is over."
+}
+
+updateFrontEndArtifacts.dependsOn buildFrontEndArtifacts

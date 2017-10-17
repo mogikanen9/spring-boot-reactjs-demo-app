@@ -10,14 +10,15 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication().withUser("user").password("password").roles("VIEW")
+		auth.inMemoryAuthentication()
+		.withUser("user").password("pwd").roles("VIEW","EDIT")
 		.and().withUser("admin")
-				.password("password").roles("VIEW","EDIT");
+				.password("pwd").roles("VIEW","EDIT","DELETE");
 	}
 
 	@Override
@@ -25,7 +26,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 		//.antMatchers("/api/v1/**").permitAll()
 		.antMatchers("/welcome**","/api/v1/**")
-			.hasAnyRole("VIEW","EDIT").anyRequest().authenticated()
+			.hasAnyRole("VIEW","EDIT","DELETE").anyRequest().authenticated()
 			.and()
 				.formLogin()
 				.loginPage("/login")

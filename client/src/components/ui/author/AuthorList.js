@@ -44,12 +44,18 @@ export class AuthorList extends Component {
          })
         .then((response) => response.json())
         .then((responseJson) => {
+            if(responseJson.ok){
             console.log("responseJson.authors->",responseJson._embedded.authors)
             this.setState({
                     loading: false,
                     authors: responseJson._embedded.authors,
                     controlLinks: responseJson._links
                 })
+            }else if(responseJson.status=="403"){
+                alert("You are not authorized to view this page/data!")
+            }else{
+                alert("Smth went wrong->"+responseJson.statusText)
+            }
           }).catch((error) => {
             console.error(error);
           })
@@ -97,6 +103,8 @@ export class AuthorList extends Component {
         }).then((response)=>{
             if(response.ok){
                 this.getAuthorsFromApiAsync() 
+            }else if(response.status=="403"){
+                alert("You are not authorized to perform this operation!")
             }else{
                 alert(response.statusText)
             }

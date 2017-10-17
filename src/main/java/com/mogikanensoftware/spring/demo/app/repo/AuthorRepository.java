@@ -16,10 +16,10 @@ public interface AuthorRepository extends PagingAndSortingRepository<Author, Lon
 
 	@PreAuthorize("hasRole('DELETE')")
 	@Override
-	void delete(@Param("id") Long id);
+	void delete(Long id);
 
 	@PreAuthorize("hasRole('DELETE')")
 	@Override
-	void delete(@Param("author") Author author);
+	void delete(Author author);
 
 }

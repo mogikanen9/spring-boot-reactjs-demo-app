@@ -2,7 +2,7 @@ import { Component } from 'react'
 import fetch from 'isomorphic-fetch'
 import { AuthorListRow } from './AuthorListRow'
 import {CustomPageHeader} from '../CustomPageHeader'
-import {Button, ButtonToolbar, FormControl, ControlLabel} from 'react-bootstrap'
+import {Button, ButtonToolbar, FormControl, ControlLabel, Modal} from 'react-bootstrap'
 import {AuthorForm} from './AuthorForm'
 
 const API_URL_AUTHORS = "http://localhost:8080/api/v1/authors?size="
@@ -16,7 +16,8 @@ export class AuthorList extends Component {
             loading: false,
             action: "list",
             pageSize: this.props.pageSize,
-            listRequestUrl: API_URL_AUTHORS + this.props.pageSize
+            listRequestUrl: API_URL_AUTHORS + this.props.pageSize,
+            showErrorDialog: false
         }
 
         this.handleShowAuthorForm = this.handleShowAuthorForm.bind(this)
@@ -30,6 +31,16 @@ export class AuthorList extends Component {
         this.handleControlLinksClick = this.handleControlLinksClick.bind(this)
         this.handlePageSizeCtrlChange = this.handlePageSizeCtrlChange.bind(this)
         this.handlePageSizeCtrlSet = this.handlePageSizeCtrlSet.bind(this)
+        this.showErrorModal = this.showErrorModal.bind(this)
+        this.closeErrorModal = this.closeErrorModal.bind(this)
+    }
+
+    showErrorModal(){
+        this.setState({showErrorDialog: true})
+    }
+
+    closeErrorModal(){
+        this.setState({showErrorDialog: false})
     }
 
     getAuthorsFromApiAsync(){
@@ -102,7 +113,7 @@ export class AuthorList extends Component {
         }).then((response)=>{
             console.log("handleDelete: response.status->",response.status)
             if(response.status=="403"){
-                alert("You are not authorized to perform this operation!")
+                this.showErrorModal()
             }else{
                 this.getAuthorsFromApiAsync() 
             }
@@ -257,6 +268,21 @@ export class AuthorList extends Component {
         return (
             <div className="container">
                  <CustomPageHeader headerTitle="Manage Authors"/>
+                 <div>    
+                 <Modal show={this.state.showErrorDialog} onHide={this.closeErrorModal}>
+                    <Modal.Header closeButton>
+                        <Modal.Title><strong>Authoriation Failure</strong></Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div>
+                            You are not authorized to perform this operation!
+                            </div>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button onClick={this.closeErrorModal}>Close</Button>
+                    </Modal.Footer>
+                </Modal> 
+                 </div>
                  <div className="row">
                      <div className="col-md-12">
                            {displayElement}

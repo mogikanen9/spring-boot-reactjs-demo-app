@@ -16,12 +16,19 @@
 <body>
 	<div class="container">
 		<div class="row">
-			<div class="col-sm-6 col-md-4 col-md-offset-4">
-				<div th:if="${param.error}" class="alert alert-danger">Invalid
-					username and password.</div>
-				<div th:if="${param.logout}" class="alert alert-info">You have
-					been logged out.</div>
-				<h2>Welcome to Book App. Please, sign in</h2>	
+			<div class="col-md-4">
+				<!-- left -->
+			</div>
+			<div class="col-md-4">
+				<div th:if="${param.error}">
+					<div class="alert alert-danger">Invalid username and
+						password.</div>
+				</div>
+				<div th:if="${param.logout}">
+					<div class="alert alert-info">You have been logged out.</div>
+				</div>
+				<h3>Welcome to Book App.</h3>
+				<h3>Please, sign in</h3>
 				<form th:action="@{/login}" method="post">
 					<div class="form-group">
 						<label for="username"> User Name</label>: <input type="text"
@@ -35,6 +42,9 @@
 						<input type="submit" value="Sign In" class="btn btn-default" />
 					</div>
 				</form>
+			</div>
+			<div class="col-md-4">
+				<!-- right -->
 			</div>
 		</div>
 	</div>

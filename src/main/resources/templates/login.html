@@ -1,20 +1,52 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-    <head>
-        <title>Login to Book App </title>
-    </head>
-    <body>
-        <div th:if="${param.error}">
-            Invalid username and password.
-        </div>
-        <div th:if="${param.logout}">
-            You have been logged out.
-        </div>
-        <form th:action="@{/login}" method="post">
-            <div><label> User Name : <input type="text" name="username"/> </label></div>
-            <div><label> Password: <input type="password" name="password"/> </label></div>
-            <div><input type="submit" value="Sign In"/></div>
-        </form>
-    </body>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css" />
+
+<!-- Optional theme -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap-theme.min.css" />
+
+<title>Login to Book App</title>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4">
+				<!-- left -->
+			</div>
+			<div class="col-md-4">
+				<div th:if="${param.error}">
+					<div class="alert alert-danger">Invalid username and
+						password.</div>
+				</div>
+				<div th:if="${param.logout}">
+					<div class="alert alert-info">You have been logged out.</div>
+				</div>
+				<h3>Welcome to Book App.</h3>
+				<h3>Please, sign in</h3>
+				<form th:action="@{/login}" method="post">
+					<div class="form-group">
+						<label for="username"> User Name</label>: <input type="text"
+							name="username" id="username" class="form-control" />
+					</div>
+					<div class="form-group">
+						<label for="password"> Password:</label> <input type="password"
+							name="password" id="password" class="form-control" />
+					</div>
+					<div>
+						<input type="submit" value="Sign In" class="btn btn-default" />
+					</div>
+				</form>
+			</div>
+			<div class="col-md-4">
+				<!-- right -->
+			</div>
+		</div>
+	</div>
+</body>
 </html>

@@ -1,14 +1,42 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-    <head>
-        <title>Welcome to the Books App!</title>
-    </head>
-    <body>
-        <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
-		<a href="index.html">Open Book App</a>
-        <form th:action="@{/logout}" method="post">
-            <input type="submit" value="Sign Out"/>
-        </form>
-    </body>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css" />
+
+<!-- Optional theme -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap-theme.min.css" />
+
+<title>Welcome to the Books App!</title>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4">
+				<!-- left -->
+			</div>
+			<div class="col-md-4">
+				<h2 th:inline="text">Hello,
+					[[${#httpServletRequest.remoteUser}]]!</h2>
+
+				<div>
+					<a href="index.html" class="btn btn-primary">Open Book App</a>
+				</div>
+				<div>
+					<br/>
+					<form th:action="@{/logout}" method="post">
+						<input type="submit" value="Sign Out" class="btn btn-basic" />
+					</form>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<!-- right -->
+			</div>
+		</div>
+	</div>
+</body>
 </html>

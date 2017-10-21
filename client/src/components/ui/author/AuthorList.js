@@ -2,7 +2,7 @@ import { Component } from 'react'
 import fetch from 'isomorphic-fetch'
 import { AuthorListRow } from './AuthorListRow'
 import {CustomPageHeader} from '../CustomPageHeader'
-import {Button, ButtonToolbar, FormControl, ControlLabel} from 'react-bootstrap'
+import {Button, ButtonToolbar, FormControl, ControlLabel, Modal} from 'react-bootstrap'
 import {AuthorForm} from './AuthorForm'
 
 const API_URL_AUTHORS = "http://localhost:8080/api/v1/authors?size="
@@ -16,7 +16,8 @@ export class AuthorList extends Component {
             loading: false,
             action: "list",
             pageSize: this.props.pageSize,
-            listRequestUrl: API_URL_AUTHORS + this.props.pageSize
+            listRequestUrl: API_URL_AUTHORS + this.props.pageSize,
+            showErrorDialog: false
         }
 
         this.handleShowAuthorForm = this.handleShowAuthorForm.bind(this)
@@ -30,6 +31,16 @@ export class AuthorList extends Component {
         this.handleControlLinksClick = this.handleControlLinksClick.bind(this)
         this.handlePageSizeCtrlChange = this.handlePageSizeCtrlChange.bind(this)
         this.handlePageSizeCtrlSet = this.handlePageSizeCtrlSet.bind(this)
+        this.showErrorModal = this.showErrorModal.bind(this)
+        this.closeErrorModal = this.closeErrorModal.bind(this)
+    }
+
+    showErrorModal(){
+        this.setState({showErrorDialog: true})
+    }
+
+    closeErrorModal(){
+        this.setState({showErrorDialog: false})
     }
 
     getAuthorsFromApiAsync(){
@@ -44,12 +55,17 @@ export class AuthorList extends Component {
          })
         .then((response) => response.json())
         .then((responseJson) => {
-            console.log("responseJson.authors->",responseJson._embedded.authors)
-            this.setState({
-                    loading: false,
-                    authors: responseJson._embedded.authors,
-                    controlLinks: responseJson._links
-                })
+            console.log("responseJson.status->",responseJson.status)
+           if(responseJson.status=="403"){
+                alert("You are not authorized to view this page/data!")
+            }else{
+                console.log("responseJson.authors->",responseJson._embedded.authors)
+                this.setState({
+                        loading: false,
+                        authors: responseJson._embedded.authors,
+                        controlLinks: responseJson._links
+                    })
+            }
           }).catch((error) => {
             console.error(error);
           })
@@ -95,10 +111,11 @@ export class AuthorList extends Component {
                 'Content-Type': 'application/json'
             })
         }).then((response)=>{
-            if(response.ok){
-                this.getAuthorsFromApiAsync() 
+            console.log("handleDelete: response.status->",response.status)
+            if(response.status=="403"){
+                this.showErrorModal()
             }else{
-                alert(response.statusText)
+                this.getAuthorsFromApiAsync() 
             }
         })
         .catch((error) => {
@@ -251,6 +268,21 @@ export class AuthorList extends Component {
         return (
             <div className="container">
                  <CustomPageHeader headerTitle="Manage Authors"/>
+                 <div>    
+                 <Modal show={this.state.showErrorDialog} onHide={this.closeErrorModal}>
+                    <Modal.Header closeButton>
+                        <Modal.Title><strong>Authoriation Failure</strong></Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div>
+                            You are not authorized to perform this operation!
+                            </div>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button onClick={this.closeErrorModal}>Close</Button>
+                    </Modal.Footer>
+                </Modal> 
+                 </div>
                  <div className="row">
                      <div className="col-md-12">
                            {displayElement}

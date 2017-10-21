@@ -1,6 +1,7 @@
 package com.mogikanensoftware.spring.demo.app.repo;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,12 +14,12 @@ import com.mogikanensoftware.spring.demo.app.entity.Author;
 @PreAuthorize("hasRole('VIEW')")
 public interface AuthorRepository extends PagingAndSortingRepository<Author, Long>{
 
-	/*@PreAuthorize("hasRole('EDIT')")
+	@PreAuthorize("hasRole('DELETE')")
 	@Override
 	void delete(Long id);
 
-	@PreAuthorize("hasRole('EDIT')")
+	@PreAuthorize("hasRole('DELETE')")
 	@Override
-	void delete(Author entity);*/
+	void delete(Author author);
 
 }

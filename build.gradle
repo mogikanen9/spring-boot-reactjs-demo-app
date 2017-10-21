@@ -11,7 +11,6 @@ buildscript {
 }
 
 apply plugin: 'java'
-apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 
 version = '0.0.2-SNAPSHOT'
@@ -39,7 +38,6 @@ dependencies {
 	runtime('com.h2database:h2')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
-
 
 task updateFrontEndArtifacts(type: Copy) {
    println "Executing updateFrontEndArtifacts task ..."

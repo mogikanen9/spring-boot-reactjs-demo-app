@@ -1,4 +1,4 @@
-import {Component} from 'react'
+import React, {Component} from 'react'
 import PageHeader from 'react-bootstrap/lib/PageHeader'
 import {MainMenu} from './MainMenu'
 

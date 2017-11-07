@@ -42,7 +42,7 @@ dependencies {
 task updateFrontEndArtifacts(type: Copy) {
    println "Executing updateFrontEndArtifacts task ..."
 
-   File jsArtifactFolder = file("client/dist")
+   File jsArtifactFolder = file("client/build")
    println "updateFrontEndArtifacts -> $jsArtifactFolder"	
 
    File destFolder = file("build/resources/main/static")
@@ -68,10 +68,12 @@ task buildFrontEndArtifacts(type:Exec) {
   commandLine 'cmd', '/c', 'npm start'
 
   if(OperatingSystem.current().isLinux() || OperatingSystem.current().isMacOsX()){
-	commandLine './npm start'
+	commandLine './npm run build'
 	}	
 
    println "Task buildFrontEndArtifacts execution is over."
 }
 
-updateFrontEndArtifacts.dependsOn buildFrontEndArtifacts
+//commented out since migration to create-react-app
+//TODO: revisit
+//updateFrontEndArtifacts.dependsOn buildFrontEndArtifacts

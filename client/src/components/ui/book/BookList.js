@@ -1,4 +1,4 @@
-import { Component } from 'react'
+import React, { Component } from 'react'
 import fetch from 'isomorphic-fetch'
 import {CustomPageHeader} from '../CustomPageHeader'
 
@@ -26,7 +26,7 @@ export class BookList extends Component {
                  <CustomPageHeader headerTitle="Books"/>
                  <div className="row">
                      <div className="col-md-12">
-                           
+                             Coming soon...
                       </div>      
                 </div>
              </div>    

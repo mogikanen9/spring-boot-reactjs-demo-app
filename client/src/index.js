@@ -1,7 +1,8 @@
-import React from 'react'
-import { render } from 'react-dom'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import registerServiceWorker from './registerServiceWorker';
 import routes from './routes'
 
-window.React = React
-
-render(routes, document.getElementById('react-container'))
+ReactDOM.render(routes, document.getElementById('root'));
+registerServiceWorker();

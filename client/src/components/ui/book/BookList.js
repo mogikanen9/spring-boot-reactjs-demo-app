@@ -26,7 +26,7 @@ export class BookList extends Component {
                  <CustomPageHeader headerTitle="Books"/>
                  <div className="row">
                      <div className="col-md-12">
-                           
+                             Coming soon...
                       </div>      
                 </div>
              </div>    

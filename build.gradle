@@ -74,4 +74,6 @@ task buildFrontEndArtifacts(type:Exec) {
    println "Task buildFrontEndArtifacts execution is over."
 }
 
+//commented out since migration to create-react-app
+//TODO: revisit
 //updateFrontEndArtifacts.dependsOn buildFrontEndArtifacts

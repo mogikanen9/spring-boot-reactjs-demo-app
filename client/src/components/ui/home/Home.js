@@ -1,4 +1,4 @@
-import {Component} from 'react'
+import React, {Component} from 'react'
 import {CustomPageHeader} from '../CustomPageHeader'
 
 export class Home extends Component{

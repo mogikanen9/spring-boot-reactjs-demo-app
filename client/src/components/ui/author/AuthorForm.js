@@ -60,19 +60,23 @@ export class AuthorForm extends Component{
         
         let errors = []
 
-        if(!this.isValidName(author.firstName)){
+        if(!author.firstName){
+            errors.push({fieldName:"firstName", 
+                msg:"Invalid FN. Cannot be empty!"})
+        }else if(!this.isValidName(author.firstName)){
             errors.push({fieldName:"firstName", 
                         msg:"Invalid FN. Only alpha caracters are allowed!"})
         }
 
-        if(!this.isValidName(author.lastName)){
+        if(!author.lastName){
+            errors.push({fieldName:"lastName", 
+            msg:"Invalid LN. Cannot be empty!"})
+        }else if(!this.isValidName(author.lastName)){
             errors.push({fieldName:"lastName", 
                         msg:"Invalid LN. Only alpha caracters are allowed!"})
         }
 
-        this.setState({formErrors:errors}) 
-
-        return errors.length==0
+        return errors
      }
 
     handleSubmit(e){
@@ -84,7 +88,10 @@ export class AuthorForm extends Component{
         }
         console.log(" new/updated author->",author)
 
-        if(this.isValidFormData(author)){
+        let errors = this.isValidFormData(author)
+        this.setState({formErrors:errors}) 
+        
+        if(errors.length==0){
 
         let apiURI = null
         let apiMethod = null

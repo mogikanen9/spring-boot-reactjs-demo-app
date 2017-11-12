@@ -11,25 +11,44 @@ afterEach(()=>{
   form = null
 })
 
-test('isValidName: check a valid name', () => {
+describe('isValidName:',()=>{
+
+  test('check a valid name', () => {
     expect(form.isValidName('Vasya')).toBe(true)
   })
 
-  test('isValidName: check a invalid name', () => {
-    expect(form.isValidName('Jenia23')).toBe(false)
+  test('check an invalid name', () => {
+    expect(form.isValidName('Jen2ia')).toBe(false)
   })
+
+})
+
   
-  test('isValidFormData: empty author json', ()=>{
+describe('isValidFormData',()=>{
+  test('empty author json', ()=>{
     let author = {}
     expect(form.isValidFormData(author)).toHaveLength(2) //expect 2 validation errors
   })
 
-  test('isValidFormData: empty last name only', ()=>{
+  test('empty last name only', ()=>{
     let author = {firstName:'Valera'}
     expect(form.isValidFormData(author)).toHaveLength(1) //expect 1 validation errors
   })
 
-  test('isValidFormData: empty first name only', ()=>{
+  test('empty first name only', ()=>{
     let author = {lastName:'Kio'}
     expect(form.isValidFormData(author)).toHaveLength(1) //expect 1 validation errors
   })
+
+  test('both FN and LN setup', ()=>{
+    let author = {lastName:'Kio', firstName:'Mo'}
+    expect(form.isValidFormData(author)).toHaveLength(0)
+  })
+
+  test('both FN and LN setup with numbers in them', ()=>{
+    let author = {lastName:'K3io', firstName:'Mo2'}
+    expect(form.isValidFormData(author)).toHaveLength(2)
+  })
+
+})
+

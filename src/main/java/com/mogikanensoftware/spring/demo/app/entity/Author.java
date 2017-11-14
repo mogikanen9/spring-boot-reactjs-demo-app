@@ -7,18 +7,17 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="AUTHOR")
+@Table(name = "AUTHOR")
 public class Author {
 
 	private @Id @GeneratedValue Long id;
-	
-	@Column(name="FIRST_NAME")
+
+	@Column(name = "FIRST_NAME", nullable = false, length=25)
 	private String firstName;
-	
-	@Column(name="LAST_NAME")
+
+	@Column(name = "LAST_NAME", nullable = false, length=25)
 	private String lastName;
 
-	
 	public Author() {
 		super();
 	}

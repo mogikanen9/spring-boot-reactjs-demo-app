@@ -1,35 +1,38 @@
 import React, { Component } from 'react'
 import fetch from 'isomorphic-fetch'
-import {CustomPageHeader} from '../CustomPageHeader'
+import { CustomPageHeader } from '../CustomPageHeader'
+import { BookListRow } from './BookListRow'
 
 export class BookList extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props)
-        this.state = {
-            books: [],
-            loading: false
-        }
+        this.renderBookRow = this.renderBookRow.bind(this)
     }
 
-    getBooksFromApiAsync(){
+    getBooksFromApiAsync() {
+        console.log('getBooksFromApiAsync...')
     }
 
-    componentDidMount(){
-       this.getBooksFromApiAsync()
+    componentDidMount() {
+        this.getBooksFromApiAsync()
+    }
+
+    renderBookRow(theBook) {
+        return <BookListRow isbn={theBook.isbn} name={theBook.name} published={theBook.published}/>
     }
 
     render() {
 
         return (
             <div className="container">
-                 <CustomPageHeader headerTitle="Books"/>
-                 <div className="row">
-                     <div className="col-md-12">
-                             Coming soon...
-                      </div>      
+                <CustomPageHeader headerTitle="Books" />
+                <div className="row">
+                    <div className="col-md-12">
+                        {this.props.books.map(theBook => this.renderBookRow(theBook))}
+                      </div>
                 </div>
-             </div>    
-        )    
-   }     
+            </div>
+        )
+    }
 }

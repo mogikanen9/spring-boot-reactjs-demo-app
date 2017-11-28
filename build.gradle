@@ -64,7 +64,7 @@ task buildFrontEndArtifacts(type:Exec) {
   workingDir 'client'
 
   //Windows default
-  commandLine 'cmd', '/c', 'npm start'
+  commandLine 'cmd', '/c', 'npm run build'
 
   if(OperatingSystem.current().isLinux() || OperatingSystem.current().isMacOsX()){
 	commandLine './npm run build'
@@ -73,6 +73,4 @@ task buildFrontEndArtifacts(type:Exec) {
    println "Task buildFrontEndArtifacts execution is over."
 }
 
-//commented out since migration to create-react-app
-//TODO: revisit
-//updateFrontEndArtifacts.dependsOn buildFrontEndArtifacts
+updateFrontEndArtifacts.dependsOn buildFrontEndArtifacts

@@ -21,15 +21,13 @@ export class BookListRow extends Component {
                     {this.props.name}
                 </td>
                 <td>
-                    {this.props.publsihed}
+                    {this.props.published}
                 </td>
                 <td>
-                    {this.props.author}
+                    
                 </td>
                 <td>
                     <Button bsStyle="info" >View/Edit</Button>
-                </td>
-                <td>
                     <Button bsStyle="danger" >Delete</Button>
                 </td>
             </tr>

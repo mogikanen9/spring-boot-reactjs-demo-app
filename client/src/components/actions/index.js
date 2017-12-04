@@ -32,7 +32,7 @@ function getBooksFromApi(dispatch, pageSize) {
         .then((responseJson) => {
             console.log("responseJson.status->", responseJson.status)
             if (responseJson.status == "403") {
-                console.log("You are not authorized to view this page/data!")
+                console.warn("You are not authorized to view this page/data!")
                 dispatch(displayBooks([]))
             } else {
                 console.log("responseJson.books->", responseJson._embedded.books)

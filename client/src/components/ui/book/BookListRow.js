@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Button } from 'react-bootstrap'
 
 export class BookListRow extends Component {
 
@@ -27,8 +26,6 @@ export class BookListRow extends Component {
                     
                 </td>
                 <td>
-                    <Button bsStyle="info" >View/Edit</Button>
-                    <Button bsStyle="danger" >Delete</Button>
                 </td>
             </tr>
         )

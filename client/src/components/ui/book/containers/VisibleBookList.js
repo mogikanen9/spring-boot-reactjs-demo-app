@@ -3,9 +3,13 @@ import { BookList } from '../BookList'
 import { fetchBooks } from '../../../actions/index'
 
 const mapStateToProps = state => {
+  console.log('state->',state)
+  console.log('state.books->',state.books)
+  console.log('state.books.myBooks->',state.books.myBooks)
+  console.log('state.books.isFetching->',state.books.isFetching)
   return {
-    books: state.books,
-    isFetching: state.isFetching
+    books: state.books.myBooks,
+    isFetching: state.books.isFetching
   }
 }
 

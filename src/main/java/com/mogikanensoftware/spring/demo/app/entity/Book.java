@@ -26,7 +26,7 @@ public class Book {
 
 	@Column(name = "PUBLISHED", nullable = false)
 	@Temporal(TemporalType.DATE)
-	private Date publsihed;
+	private Date published;
 
 	@ManyToOne
 	@JoinColumn(name = "AUTHOR_ID", nullable = false)
@@ -35,12 +35,12 @@ public class Book {
 	@Column(name = "DESCRIPTION", nullable = false, length = 255)
 	private String description;
 
-	public Book(Long id, String name, String isbn, Date publsihed, Author author, String description) {
+	public Book(Long id, String name, String isbn, Date published, Author author, String description) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.isbn = isbn;
-		this.publsihed = publsihed;
+		this.published = published;
 		this.author = author;
 		this.description = description;
 	}
@@ -73,12 +73,12 @@ public class Book {
 		this.isbn = isbn;
 	}
 
-	public Date getPublsihed() {
-		return publsihed;
+	public Date getPublished() {
+		return published;
 	}
 
-	public void setPublsihed(Date publsihed) {
-		this.publsihed = publsihed;
+	public void setPublished(Date published) {
+		this.published = published;
 	}
 
 	public Author getAuthor() {
@@ -106,7 +106,7 @@ public class Book {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((isbn == null) ? 0 : isbn.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((publsihed == null) ? 0 : publsihed.hashCode());
+		result = prime * result + ((published == null) ? 0 : published.hashCode());
 		return result;
 	}
 
@@ -144,10 +144,10 @@ public class Book {
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
-		if (publsihed == null) {
-			if (other.publsihed != null)
+		if (published == null) {
+			if (other.published != null)
 				return false;
-		} else if (!publsihed.equals(other.publsihed))
+		} else if (!published.equals(other.published))
 			return false;
 		return true;
 	}

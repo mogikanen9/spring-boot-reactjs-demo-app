@@ -12,10 +12,10 @@ public class Author {
 
 	private @Id @GeneratedValue Long id;
 
-	@Column(name = "FIRST_NAME", nullable = false, length=25)
+	@Column(name = "FIRST_NAME", nullable = false, length = 25)
 	private String firstName;
 
-	@Column(name = "LAST_NAME", nullable = false, length=25)
+	@Column(name = "LAST_NAME", nullable = false, length = 25)
 	private String lastName;
 
 	public Author() {
@@ -51,6 +51,16 @@ public class Author {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	public String printName() {
+		return String.format("%s %s", this.firstName != null ? this.firstName : "",
+				this.lastName != null ? this.lastName : "");
+	}
+
+	@Override
+	public String toString() {
+		return "Author [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + "]";
 	}
 
 }

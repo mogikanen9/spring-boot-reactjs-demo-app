@@ -12,25 +12,28 @@ export class BookListExpandedRow extends Component {
     render() {
 
         return (
-            <div>
-                <table className="table table-condensed">
-                    <tr>
-                        <td>
-                            Author:
+            <div className="panel panel-default">
+                <div className="panel-heading">Additional book information</div>
+                <div className="panel-body">
+                    <table className="table table-condensed">
+                        <tr>
+                            <td className="col-md-3">
+                                Author:
                         </td>
-                        <td>
-                            {this.props.author}
+                            <td className="col-md-9">
+                                {this.props.author}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="col-md-3">
+                                Description:
                         </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Description:
-                        </td>
-                        <td>
-                            {this.props.description}
-                        </td>
-                    </tr>
-                </table>
+                            <td className="col-md-9">
+                                {this.props.description}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         )
     }

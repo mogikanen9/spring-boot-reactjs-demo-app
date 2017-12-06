@@ -1,20 +1,17 @@
 import React from 'react'
-import {Component} from 'react'
-import {CustomPageHeader} from '../CustomPageHeader'
+import { Component } from 'react'
+import { CustomPageHeader } from '../CustomPageHeader'
 
-export class Whoops404 extends Component{
-    constructor(props){
-        super(props)
-    }
+export class Whoops404 extends Component {
 
-    render(){
-        return(
+    render() {
+        return (
             <div className="container">
-                <CustomPageHeader headerTitle="Whoops, resource not found"/>
+                <CustomPageHeader headerTitle="Whoops, resource not found" />
                 <div className="row">
-                 <p>Could not find {this.props.location.pathname}</p>
-                </div>    
-            </div>    
+                    <p>Could not find {this.props.location.pathname}</p>
+                </div>
+            </div>
         )
     }
 }

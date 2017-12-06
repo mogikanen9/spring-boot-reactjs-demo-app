@@ -2,13 +2,6 @@ import React, { Component } from 'react'
 
 export class BookListExpandedRow extends Component {
 
-    constructor(props) {
-        super(props)
-    }
-
-    componentDidMount() {
-    }
-
     render() {
 
         return (

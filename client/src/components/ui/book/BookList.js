@@ -10,6 +10,7 @@ export class BookList extends Component {
     constructor(props) {
         super(props)
         this.renderBookTable = this.renderBookTable.bind(this)
+        this.onRowSelect = this.onRowSelect.bind(this)
         console.log('this.props.isFetching->', this.props.isFetching)
     }
 
@@ -26,6 +27,20 @@ export class BookList extends Component {
     isExpandableRow(row) {
         return true
     }
+
+    onRowSelect(row, isSelected, e) {
+        let bookId = row['id'];
+        let msg = `is selected: ${isSelected}, ${bookId}`
+        console.log(e,msg);
+      }
+
+
+     selectRowProp = {
+        mode: "radio",
+        clickToSelect: true,
+        onSelect: this.onRowSelect,
+        bgColor: "rgb(238, 193, 213)" 
+      }
 
     renderBookTable() {
 
@@ -54,6 +69,7 @@ export class BookList extends Component {
                 options={options}
                 expandableRow={this.isExpandableRow}
                 expandComponent={this.expandComponent}
+                selectRow={this.selectRowProp}
                 striped hover>
                 <TableHeaderColumn isKey={true} dataField='isbn'>ISBN</TableHeaderColumn>
                 <TableHeaderColumn dataField='name' dataSort={true} >Book Name</TableHeaderColumn>

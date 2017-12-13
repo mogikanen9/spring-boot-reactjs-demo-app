@@ -1,4 +1,4 @@
-import { ADD_BOOK, DELETE_BOOK, UPDATE_BOOK, GET_BOOK, FETCH_BOOKS, DISPLAY_BOOKS } from '../constants/ActionTypes'
+import { FETCH_BOOKS, DISPLAY_BOOKS } from '../constants/ActionTypes'
 import fetch from 'isomorphic-fetch'
 
 export const fetchBooks = (dispatch, pageSize) => {
@@ -31,7 +31,7 @@ function getBooksFromApi(dispatch, pageSize) {
         .then((response) => response.json())
         .then((responseJson) => {
             console.log("responseJson.status->", responseJson.status)
-            if (responseJson.status == "403") {
+            if (responseJson.status === 403) {
                 console.warn("You are not authorized to view this page/data!")
                 dispatch(displayBooks([]))
             } else {

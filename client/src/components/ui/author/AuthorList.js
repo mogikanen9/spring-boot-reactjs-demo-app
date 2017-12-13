@@ -2,15 +2,15 @@ import React from 'react'
 import { Component } from 'react'
 import fetch from 'isomorphic-fetch'
 import { AuthorListRow } from './AuthorListRow'
-import {CustomPageHeader} from '../CustomPageHeader'
-import {Button, ButtonToolbar, FormControl, ControlLabel, Modal} from 'react-bootstrap'
-import {AuthorForm} from './AuthorForm'
+import { CustomPageHeader } from '../CustomPageHeader'
+import { Button, ButtonToolbar, Modal } from 'react-bootstrap'
+import { AuthorForm } from './AuthorForm'
 
 const API_URL_AUTHORS = "http://localhost:8080/api/v1/authors?size="
 
 export class AuthorList extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props)
         this.state = {
             authors: [],
@@ -36,221 +36,221 @@ export class AuthorList extends Component {
         this.closeErrorModal = this.closeErrorModal.bind(this)
     }
 
-    showErrorModal(){
-        this.setState({showErrorDialog: true})
+    showErrorModal() {
+        this.setState({ showErrorDialog: true })
     }
 
-    closeErrorModal(){
-        this.setState({showErrorDialog: false})
+    closeErrorModal() {
+        this.setState({ showErrorDialog: false })
     }
 
-    getAuthorsFromApiAsync(){
-    
+    getAuthorsFromApiAsync() {
+
         console.log(`fetching data from API url->${this.state.listRequestUrl}`)
-        this.setState({loading: true})
-         fetch(this.state.listRequestUrl,{
-             method: 'GET',
-             mode: 'cors',
-             cache: 'default',
-             credentials: 'same-origin'
-         })
-        .then((response) => response.json())
-        .then((responseJson) => {
-            console.log("responseJson.status->",responseJson.status)
-           if(responseJson.status=="403"){
-                alert("You are not authorized to view this page/data!")
-            }else{
-                console.log("responseJson.authors->",responseJson._embedded.authors)
-                this.setState({
+        this.setState({ loading: true })
+        fetch(this.state.listRequestUrl, {
+            method: 'GET',
+            mode: 'cors',
+            cache: 'default',
+            credentials: 'same-origin'
+        })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                console.log("responseJson.status->", responseJson.status)
+                if (responseJson.status === 403) {
+                    alert("You are not authorized to view this page/data!")
+                } else {
+                    console.log("responseJson.authors->", responseJson._embedded.authors)
+                    this.setState({
                         loading: false,
                         authors: responseJson._embedded.authors,
                         controlLinks: responseJson._links
                     })
-            }
-          }).catch((error) => {
-            console.error(error);
-          })
+                }
+            }).catch((error) => {
+                console.error(error);
+            })
     }
 
-    handleControlLinksClick(newUrl){
+    handleControlLinksClick(newUrl) {
         console.log(`new url->${newUrl}`)
         this.setState({
             listRequestUrl: newUrl
-        },() => this.getAuthorsFromApiAsync())
+        }, () => this.getAuthorsFromApiAsync())
     }
 
-    componentDidMount(){
-       this.getAuthorsFromApiAsync()
+    componentDidMount() {
+        this.getAuthorsFromApiAsync()
     }
 
-    handleShowAuthorForm(e){
+    handleShowAuthorForm(e) {
         this.setState({
             action: "create"
         })
     }
 
-    handleHideAuthorForm(e){
+    handleHideAuthorForm(e) {
         this.setState({
             action: "list"
         })
     }
 
-    handleViewEdit(e,key){
-        console.log('key->',key)
+    handleViewEdit(e, key) {
+        console.log('key->', key)
         this.setState({
             action: "view-edit",
             entityLink: key
         })
     }
 
-    handleDelete(e,apiURI){
-        console.log('author to be deleted->',apiURI)
+    handleDelete(e, apiURI) {
+        console.log('author to be deleted->', apiURI)
         fetch(apiURI, {
             method: "DELETE",
             credentials: 'same-origin',
             headers: new Headers({
                 'Content-Type': 'application/json'
             })
-        }).then((response)=>{
-            console.log("handleDelete: response.status->",response.status)
-            if(response.status=="403"){
+        }).then((response) => {
+            console.log("handleDelete: response.status->", response.status)
+            if (response.status === 403) {
                 this.showErrorModal()
-            }else{
-                this.getAuthorsFromApiAsync() 
+            } else {
+                this.getAuthorsFromApiAsync()
             }
         })
-        .catch((error) => {
-            console.error(error);
-          })
-         
+            .catch((error) => {
+                console.error(error);
+            })
+
     }
 
-    executeOnSubmitAuthorForm(e){
+    executeOnSubmitAuthorForm(e) {
         this.handleHideAuthorForm(e)
         this.getAuthorsFromApiAsync()
     }
 
-    showAuthorForm(){
-        return <AuthorForm 
-                        handleCancel={this.handleHideAuthorForm} 
-                        executeOnSubmit={this.executeOnSubmitAuthorForm}
-                        title="Add Author"/> 
+    showAuthorForm() {
+        return <AuthorForm
+            handleCancel={this.handleHideAuthorForm}
+            executeOnSubmit={this.executeOnSubmitAuthorForm}
+            title="Add Author" />
     }
 
-    showViewEditAuthor(){
-        return <AuthorForm 
-                        handleCancel={this.handleHideAuthorForm} 
-                        executeOnSubmit={this.executeOnSubmitAuthorForm}
-                        title="Modify Author"
-                        entityLink={this.state.entityLink}/> 
+    showViewEditAuthor() {
+        return <AuthorForm
+            handleCancel={this.handleHideAuthorForm}
+            executeOnSubmit={this.executeOnSubmitAuthorForm}
+            title="Modify Author"
+            entityLink={this.state.entityLink} />
     }
 
-    handlePageSizeCtrlChange(evt){
+    handlePageSizeCtrlChange(evt) {
 
         let pageSizeValue = evt.target.value
-                this.setState({
-                    pageSize: pageSizeValue
-                },()=>console.log("new page size->"+this.state.pageSize))
+        this.setState({
+            pageSize: pageSizeValue
+        }, () => console.log("new page size->" + this.state.pageSize))
     }
 
-    handlePageSizeCtrlSet(){
+    handlePageSizeCtrlSet() {
         var newPageSize = this.state.pageSize
-        if(newPageSize){
+        if (newPageSize) {
             this.setState({
                 listRequestUrl: API_URL_AUTHORS + newPageSize
-            },() => this.getAuthorsFromApiAsync())
+            }, () => this.getAuthorsFromApiAsync())
         }
     }
 
-    showAuthorList(){
+    showAuthorList() {
 
         //=========================== table rows ======================
         let authorsListRows = <tr><td colSpan="2">Currently 0 Authors</td></tr>
-        
-                if(this.state.authors.length>0){
-                    authorsListRows = this.state.authors.map(function(author){
-                        return <AuthorListRow 
-                                    firstName={author.firstName} 
-                                    lastName={author.lastName} 
-                                    key={author._links.author.href}
-                                    handleViewEdit={(evt) => this.handleViewEdit(evt,author._links.author.href)}
-                                    handleDelete={(evt) => this.handleDelete(evt,author._links.author.href)}/>
-                    },this)
-                }
-       
+
+        if (this.state.authors.length > 0) {
+            authorsListRows = this.state.authors.map(function (author) {
+                return <AuthorListRow
+                    firstName={author.firstName}
+                    lastName={author.lastName}
+                    key={author._links.author.href}
+                    handleViewEdit={(evt) => this.handleViewEdit(evt, author._links.author.href)}
+                    handleDelete={(evt) => this.handleDelete(evt, author._links.author.href)} />
+            }, this)
+        }
+
         //=========================== button controls ======================        
         let btnFirst = ''
         let btnNext = ''
         let btnLast = ''
-        if(this.state.controlLinks){
-            if(this.state.controlLinks.next){
+        if (this.state.controlLinks) {
+            if (this.state.controlLinks.next) {
                 btnNext = <Button onClick={(evt) => this.handleControlLinksClick(this.state.controlLinks.next.href)}
-                bsStyle="default"> Next</Button>
+                    bsStyle="default"> Next</Button>
             }
 
-            if(this.state.controlLinks.first){
+            if (this.state.controlLinks.first) {
                 btnFirst = <Button onClick={(evt) => this.handleControlLinksClick(this.state.controlLinks.first.href)}
-                bsStyle="default"> First </Button>
+                    bsStyle="default"> First </Button>
             }
-          
-            if(this.state.controlLinks.last){
+
+            if (this.state.controlLinks.last) {
                 btnLast = <Button onClick={(evt) => this.handleControlLinksClick(this.state.controlLinks.last.href)}
-                bsStyle="default"> Last </Button>
+                    bsStyle="default"> Last </Button>
             }
 
         }
-                
+
         //=========================== page size ======================
 
         const pageSizeCtrl = (
-                            <div className="panel panel-default">
-                                <div className="panel-body"> 
-                                    <form className="form-inline">
-                                        <div className="form-group">
-                                            <label className="control-label" 
-                                                    htmlFor="pageSizeCtrl">Page size:</label>
-                                                    &nbsp;        
+            <div className="panel panel-default">
+                <div className="panel-body">
+                    <form className="form-inline">
+                        <div className="form-group">
+                            <label className="control-label"
+                                htmlFor="pageSizeCtrl">Page size:</label>
+                            &nbsp;
                                             <input type="text"
-                                                    size="5"
-                                                    className="form-control" 
-                                                    id="pageSizeCtrl"
-                                                    value={this.state.pageSize}
-                                                    onChange={this.handlePageSizeCtrlChange}></input>
-                                                    <Button onClick={(evt)=>this.handlePageSizeCtrlSet()}>Set</Button>        
-                                                </div>
-                                    </form>
-                                </div>
-                            </div>    
-        )     
-                           
+                                size="5"
+                                className="form-control"
+                                id="pageSizeCtrl"
+                                value={this.state.pageSize}
+                                onChange={this.handlePageSizeCtrlChange}></input>
+                            <Button onClick={(evt) => this.handlePageSizeCtrlSet()}>Set</Button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        )
+
         return (
             <div>
                 {pageSizeCtrl}
                 <table className="table">
-                <thead>
-                    <tr>
-                        <th>First name</th>
-                        <th>Last name</th>
-                        <th colSpan="2"> Actions</th>
-                    </tr>
-                </thead>
-                <tbody>    
-                {authorsListRows}
-                </tbody>   
-            </table>
+                    <thead>
+                        <tr>
+                            <th>First name</th>
+                            <th>Last name</th>
+                            <th colSpan="2"> Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {authorsListRows}
+                    </tbody>
+                </table>
                 <div>
                     <ButtonToolbar>
                         {btnFirst}{btnNext}{btnLast}
                     </ButtonToolbar>
-                    <br/>
-                </div>    
+                    <br />
+                </div>
                 <div>
                     <ButtonToolbar>
                         <Button onClick={this.handleShowAuthorForm}
                             bsStyle="primary"> Add Author </Button>
-                    </ButtonToolbar>        
-                </div> 
-         </div>   
+                    </ButtonToolbar>
+                </div>
+            </div>
         )
     }
 
@@ -258,38 +258,38 @@ export class AuthorList extends Component {
 
         let displayElement = null
 
-        if(this.state.action==="create"){
+        if (this.state.action === "create") {
             displayElement = this.showAuthorForm()
-        }else if(this.state.action==="view-edit"){
+        } else if (this.state.action === "view-edit") {
             displayElement = this.showViewEditAuthor()
-        }else{
+        } else {
             displayElement = this.showAuthorList()
         }
 
         return (
             <div className="container">
-                 <CustomPageHeader headerTitle="Manage Authors"/>
-                 <div>    
-                 <Modal show={this.state.showErrorDialog} onHide={this.closeErrorModal}>
-                    <Modal.Header closeButton>
-                        <Modal.Title><strong>Authoriation Failure</strong></Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <div>
-                            You are not authorized to perform this operation!
+                <CustomPageHeader headerTitle="Manage Authors" />
+                <div>
+                    <Modal show={this.state.showErrorDialog} onHide={this.closeErrorModal}>
+                        <Modal.Header closeButton>
+                            <Modal.Title><strong>Authoriation Failure</strong></Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <div>
+                                You are not authorized to perform this operation!
                             </div>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button onClick={this.closeErrorModal}>Close</Button>
-                    </Modal.Footer>
-                </Modal> 
-                 </div>
-                 <div className="row">
-                     <div className="col-md-12">
-                           {displayElement}
-                      </div>  
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button onClick={this.closeErrorModal}>Close</Button>
+                        </Modal.Footer>
+                    </Modal>
                 </div>
-             </div>    
-        )    
-   }     
+                <div className="row">
+                    <div className="col-md-12">
+                        {displayElement}
+                    </div>
+                </div>
+            </div>
+        )
+    }
 }

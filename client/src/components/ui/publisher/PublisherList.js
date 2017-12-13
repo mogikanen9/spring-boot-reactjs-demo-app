@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import fetch from 'isomorphic-fetch'
 import {CustomPageHeader} from '../CustomPageHeader'
 
 export class PublisherList extends Component {
@@ -26,7 +25,7 @@ export class PublisherList extends Component {
                  <CustomPageHeader headerTitle="Publishers"/>
                  <div className="row">
                      <div className="col-md-12">
-                           
+                           Coming soon...
                       </div>      
                 </div>
              </div>    

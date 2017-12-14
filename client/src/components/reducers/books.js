@@ -1,9 +1,9 @@
 import { ADD_BOOK, DELETE_BOOK, UPDATE_BOOK, FETCH_BOOKS, DISPLAY_BOOKS } from '../constants/ActionTypes'
 
 const initBookState = {
-    myBooks: [],
-    isFetching: false
-  }
+  myBooks: [],
+  isFetching: false
+}
 
 
 export default function books(state = initBookState, action) {
@@ -11,26 +11,28 @@ export default function books(state = initBookState, action) {
   switch (action.type) {
     case ADD_BOOK: {
       console.log('action.newBook->', action.newBook)
-      return { 
-        ...state, 
+      return {
+        ...state,
         myBooks: state.myBooks.push(action.newBook)
-     }
+      }
     }
-    case DELETE_BOOK:
+    case DELETE_BOOK: {
+      console.log('removing book->',action.bookIdURI)
       return state
+    }
     case FETCH_BOOKS: {
-      return { 
-        ...state,        
+      return {
+        ...state,
         isFetching: true
-     }
+      }
     }
     case DISPLAY_BOOKS: {
       console.log('action.books->', action.books)
-      return { 
-        ...state, 
+      return {
+        ...state,
         myBooks: action.books,
         isFetching: false
-     }
+      }
     }
     default:
       return state

@@ -1,4 +1,4 @@
-import { FETCH_BOOKS, DISPLAY_BOOKS } from '../constants/ActionTypes'
+import { FETCH_BOOKS, DISPLAY_BOOKS, DELETE_BOOK } from '../constants/ActionTypes'
 import fetch from 'isomorphic-fetch'
 
 export const fetchBooks = (dispatch, pageSize) => {
@@ -14,6 +14,13 @@ export const displayBooks = (theBooks) => {
         type: DISPLAY_BOOKS,
         isFetching: false,
         books: theBooks
+    }
+}
+
+export const deleteBook = (dispatch, bookIdURI) => {
+    return {
+        type: DELETE_BOOK,
+        bookId: deleteBookWithApi(dispatch, bookIdURI)
     }
 }
 
@@ -41,4 +48,26 @@ function getBooksFromApi(dispatch, pageSize) {
         }).catch((error) => {
             console.error(error);
         })
+}
+
+function deleteBookWithApi(dispatch, bookIdURI) {
+
+    fetch(bookIdURI, {
+        method: "DELETE",
+        credentials: 'same-origin',
+        headers: new Headers({
+            'Content-Type': 'application/json'
+        })
+    }).then((response) => {
+        console.log("deleteBook: response.status->", response.status)
+        if (response.status === 403) {
+            console.log('not authorized to remove books')
+        } else {
+            dispatch(getBooksFromApi(dispatch, 5))
+        }
+    })
+        .catch((error) => {
+            console.error(error);
+        })
+
 }

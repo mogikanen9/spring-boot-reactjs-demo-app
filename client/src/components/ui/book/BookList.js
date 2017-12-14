@@ -29,18 +29,20 @@ export class BookList extends Component {
     }
 
     onRowSelect(row, isSelected, e) {
-        let bookId = row['id'];
-        let msg = `is selected: ${isSelected}, ${bookId}`
-        console.log(e,msg);
-      }
+        let bookURI = row._links['self'].href
+        console.log(row._links['self'].href)
+        let msg = `is selected: ${isSelected},${bookURI}`
+        console.log(e, msg)
+        this.props.deleteBook(bookURI)
+    }
 
 
-     selectRowProp = {
+    selectRowProp = {
         mode: "radio",
         clickToSelect: true,
         onSelect: this.onRowSelect,
-        bgColor: "rgb(238, 193, 213)" 
-      }
+        bgColor: "rgb(238, 193, 213)"
+    }
 
     renderBookTable() {
 

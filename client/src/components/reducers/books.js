@@ -17,7 +17,7 @@ export default function books(state = initBookState, action) {
       }
     }
     case DELETE_BOOK: {
-      console.log('removing book->',action.bookIdURI)
+      console.log('removing book->',action.bookURI)
       return state
     }
     case FETCH_BOOKS: {

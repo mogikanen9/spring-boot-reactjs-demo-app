@@ -1,4 +1,4 @@
-import { FETCH_BOOKS, DISPLAY_BOOKS } from '../constants/ActionTypes'
+import { FETCH_BOOKS, DISPLAY_BOOKS, DELETE_BOOK } from '../constants/ActionTypes'
 import fetch from 'isomorphic-fetch'
 
 export const fetchBooks = (dispatch, pageSize) => {
@@ -17,6 +17,14 @@ export const displayBooks = (theBooks) => {
     }
 }
 
+export const deleteBook = (dispatch, bookURI) => {
+    return {
+        type: DELETE_BOOK,
+        isFetching: true,
+        bookURI: deleteBookWithApi(dispatch, bookURI)
+    }
+}
+
 const BOOKS_API_URL = "http://localhost:8080/api/v1/books?size="
 
 function getBooksFromApi(dispatch, pageSize) {
@@ -28,17 +36,47 @@ function getBooksFromApi(dispatch, pageSize) {
         cache: 'default',
         credentials: 'same-origin'
     })
-        .then((response) => response.json())
-        .then((responseJson) => {
-            console.log("responseJson.status->", responseJson.status)
-            if (responseJson.status === 403) {
+        //.then((response) => response.json())
+        .then((response) => {
+            console.log("response.status->", response.status)
+            if(response.ok){
+                
+                response.json().then(function(data){
+                    console.log("data->", data)
+                    dispatch(displayBooks(data._embedded.books))
+                })                
+
+            }else if (response.status === 403) {
                 console.warn("You are not authorized to view this page/data!")
                 dispatch(displayBooks([]))
             } else {
-                console.log("responseJson.books->", responseJson._embedded.books)
-                dispatch(displayBooks(responseJson._embedded.books))
+                throw Error(response.statusText)
             }
         }).catch((error) => {
             console.error(error);
         })
+}
+
+function deleteBookWithApi(dispatch, bookURI) {
+
+    fetch(bookURI, {
+        method: "DELETE",
+        credentials: 'same-origin',
+        headers: new Headers({
+            'Content-Type': 'application/json'
+        })
+    }).then((response) => {
+        console.log("deleteBook: response.status->", response.status)
+        if(response.ok){
+            //dispatch(getBooksFromApi(dispatch, 5))
+        }else if (response.status === 403) {
+            console.log('not authorized to remove books')
+        } else {
+            throw Error(response.statusText)
+        }
+    })
+        .catch((error) => {
+            console.error(error);
+        })
+
 }

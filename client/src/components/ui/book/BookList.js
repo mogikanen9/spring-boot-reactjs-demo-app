@@ -3,13 +3,14 @@ import { CustomPageHeader } from '../CustomPageHeader'
 import { LoadingEl } from '../util/LoadingEl'
 import { BookListExpandedRow } from './BookListExpandedRow'
 
-import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
+import { BootstrapTable, TableHeaderColumn, DeleteButton } from 'react-bootstrap-table'
 
 export class BookList extends Component {
 
     constructor(props) {
         super(props)
         this.renderBookTable = this.renderBookTable.bind(this)
+        this.onDeleteRow = this.onDeleteRow.bind(this)
         console.log('this.props.isFetching->', this.props.isFetching)
     }
 
@@ -25,6 +26,45 @@ export class BookList extends Component {
 
     isExpandableRow(row) {
         return true
+    }    
+
+    onDeleteRow(rows) {
+        for (let row of rows) {
+
+            let books2Del = this.props.books.filter((book) => {
+                return book.isbn === row
+              })       
+            //allow delete one book at a time only  
+            let bookURI = books2Del[0]._links['self'].href
+            console.log(`is selected to beremoved->${bookURI}`)
+            this.props.deleteBook(bookURI)
+        }
+    }
+
+    selectRowProp = {
+        mode: "radio",
+        clickToSelect: true,
+        onSelect: this.onRowSelect,
+        bgColor: "rgb(238, 193, 213)"
+    }
+
+    handleDeleteButtonClick = (onClick) => {
+        // Custom your onClick event here,
+        // it's not necessary to implement this function if you have no any process before onClick
+        console.log('This is my custom function for DeleteButton click event');
+        console.log(onClick)
+        onClick();
+    }
+
+    createCustomDeleteButton = (onClick) => {
+        return (
+            <DeleteButton
+                btnText='Delete Book'
+                btnContextual='btn-warning'
+                className='my-custom-class'
+                btnGlyphicon='glyphicon-edit'
+                onClick={() => this.handleDeleteButtonClick(onClick)} />
+        )
     }
 
     renderBookTable() {
@@ -44,7 +84,8 @@ export class BookList extends Component {
             alwaysShowAllBtns: true, // Always show next and previous button
             // withFirstAndLast: false > Hide the going to First and Last page button
             // hidePageListOnlyOnePage: true > Hide the page list if only one page.
-            afterInsertRow: this.onAfterInsertRow   // A hook for after insert rows
+            onDeleteRow: this.onDeleteRow,
+            deleteBtn: this.createCustomDeleteButton
         }
 
         return (
@@ -54,7 +95,10 @@ export class BookList extends Component {
                 options={options}
                 expandableRow={this.isExpandableRow}
                 expandComponent={this.expandComponent}
-                striped hover>
+                selectRow={this.selectRowProp}
+                deleteRow
+                striped
+                hover>
                 <TableHeaderColumn isKey={true} dataField='isbn'>ISBN</TableHeaderColumn>
                 <TableHeaderColumn dataField='name' dataSort={true} >Book Name</TableHeaderColumn>
                 <TableHeaderColumn dataField='published'>Publication Date</TableHeaderColumn>

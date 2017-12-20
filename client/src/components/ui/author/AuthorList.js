@@ -18,7 +18,11 @@ export class AuthorList extends Component {
             action: "list",
             pageSize: this.props.pageSize,
             listRequestUrl: API_URL_AUTHORS + this.props.pageSize,
-            showErrorDialog: false
+            errorDialog: {
+                show: false,
+                title: "",
+                displayMessage: ""
+            }
         }
 
         this.handleShowAuthorForm = this.handleShowAuthorForm.bind(this)
@@ -36,12 +40,25 @@ export class AuthorList extends Component {
         this.closeErrorModal = this.closeErrorModal.bind(this)
     }
 
-    showErrorModal() {
-        this.setState({ showErrorDialog: true })
+    showErrorModal(errorMsg, errorTitle) {
+        this.setState(
+            {
+                errorDialog: {
+                    show: true,
+                    title: errorTitle,
+                    displayMessage: errorMsg
+                }
+            })
     }
 
     closeErrorModal() {
-        this.setState({ showErrorDialog: false })
+        this.setState({
+            errorDialog: {
+                show: false,
+                title: "",
+                displayMessage: ""
+            }
+        })
     }
 
     getAuthorsFromApiAsync() {
@@ -58,7 +75,7 @@ export class AuthorList extends Component {
             .then((responseJson) => {
                 console.log("responseJson.status->", responseJson.status)
                 if (responseJson.status === 403) {
-                    alert("You are not authorized to view this page/data!")
+                    this.showErrorModal('You are not authorized to perform this operation!','Authorization Error')
                 } else {
                     console.log("responseJson.authors->", responseJson._embedded.authors)
                     this.setState({
@@ -113,10 +130,16 @@ export class AuthorList extends Component {
             })
         }).then((response) => {
             console.log("handleDelete: response.status->", response.status)
-            if (response.status === 403) {
-                this.showErrorModal()
-            } else {
+            if (response.ok) {
                 this.getAuthorsFromApiAsync()
+            } else {
+                if (response.status === 403) {
+                    this.showErrorModal('You are not authorized to perform this operation!','Authorization Error')
+                } else if (response.status === 409) {
+                    this.showErrorModal("This author cannot be deleted since it's already refenrenced in books!",'Operation Error')
+                } else {
+                    throw Error(response.statusText)
+                }
             }
         })
             .catch((error) => {
@@ -270,13 +293,13 @@ export class AuthorList extends Component {
             <div className="container">
                 <CustomPageHeader headerTitle="Manage Authors" />
                 <div>
-                    <Modal show={this.state.showErrorDialog} onHide={this.closeErrorModal}>
+                    <Modal show={this.state.errorDialog.show} onHide={this.closeErrorModal}>
                         <Modal.Header closeButton>
-                            <Modal.Title><strong>Authoriation Failure</strong></Modal.Title>
+                            <Modal.Title><strong>{this.state.errorDialog.title}</strong></Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
                             <div>
-                                You are not authorized to perform this operation!
+                                {this.state.errorDialog.displayMessage}
                             </div>
                         </Modal.Body>
                         <Modal.Footer>

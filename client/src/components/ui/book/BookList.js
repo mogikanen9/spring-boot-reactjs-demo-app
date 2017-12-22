@@ -3,7 +3,7 @@ import { CustomPageHeader } from '../CustomPageHeader'
 import { LoadingEl } from '../util/LoadingEl'
 import { BookListExpandedRow } from './BookListExpandedRow'
 
-import { BootstrapTable, TableHeaderColumn, DeleteButton } from 'react-bootstrap-table'
+import { BootstrapTable, TableHeaderColumn, DeleteButton, InsertButton } from 'react-bootstrap-table'
 
 export class BookList extends Component {
 
@@ -67,6 +67,21 @@ export class BookList extends Component {
         )
     }
 
+    handleInsertButtonClick = (onClick) => {
+        console.log('This is my custom function for InserButton click event');
+        alert('Adding new book stub')
+      }
+
+      createCustomInsertButton = (onClick) => {
+        return (
+          <InsertButton
+            btnText='Add Book'
+            btnContextual='btn-primary'
+            btnGlyphicon='glyphicon-edit'
+            onClick={ () => this.handleInsertButtonClick(onClick) }/>
+        )
+      }
+
     renderBookTable() {
 
         const options = {
@@ -85,7 +100,8 @@ export class BookList extends Component {
             // withFirstAndLast: false > Hide the going to First and Last page button
             // hidePageListOnlyOnePage: true > Hide the page list if only one page.
             onDeleteRow: this.onDeleteRow,
-            deleteBtn: this.createCustomDeleteButton
+            deleteBtn: this.createCustomDeleteButton,
+            insertBtn: this.createCustomInsertButton
         }
 
         return (
@@ -97,6 +113,7 @@ export class BookList extends Component {
                 expandComponent={this.expandComponent}
                 selectRow={this.selectRowProp}
                 deleteRow
+                insertRow
                 striped
                 hover>
                 <TableHeaderColumn isKey={true} dataField='isbn'>ISBN</TableHeaderColumn>

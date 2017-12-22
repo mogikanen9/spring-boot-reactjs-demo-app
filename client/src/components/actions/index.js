@@ -1,4 +1,4 @@
-import { FETCH_BOOKS, DISPLAY_BOOKS, DELETE_BOOK } from '../constants/ActionTypes'
+import { FETCH_BOOKS, DISPLAY_BOOKS, DELETE_BOOK,SHOW_ADD_NEW_BOOK,HIDE_ADD_NEW_BOOK } from '../constants/ActionTypes'
 import fetch from 'isomorphic-fetch'
 
 export const fetchBooks = (dispatch, pageSize) => {
@@ -22,6 +22,18 @@ export const deleteBook = (dispatch, bookURI) => {
         type: DELETE_BOOK,
         isFetching: true,
         bookURI: deleteBookWithApi(dispatch, bookURI)
+    }
+}
+
+export const showAddNewBook = (dispatch) => {
+    return {
+        type: SHOW_ADD_NEW_BOOK
+    }
+}
+
+export const hideAddNewBook = (dispatch) => {
+    return {
+        type: HIDE_ADD_NEW_BOOK
     }
 }
 

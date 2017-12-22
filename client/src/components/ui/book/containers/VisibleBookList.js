@@ -1,12 +1,13 @@
 import React, { connect } from 'react-redux'
 import { BookList } from '../BookList'
-import { fetchBooks, deleteBook } from '../../../actions/index'
+import { fetchBooks, deleteBook, showAddNewBook, hideAddNewBook } from '../../../actions/index'
 
 const mapStateToProps = state => {
   console.log('state->', state)
   return {
     books: state.books.myBooks,
-    isFetching: state.books.isFetching
+    isFetching: state.books.isFetching,
+    showAddNewBook: state.books.showAddNewBook
   }
 }
 
@@ -20,6 +21,13 @@ const mapDispatchToProps = dispatch => {
     deleteBook: (bookURI) => {
       console.log('Dispatching deleteBook...')
       dispatch(deleteBook(dispatch, bookURI))
+    },
+    showAddNewBookForm: () => {
+      console.log('Showing add new book form...')
+      dispatch(showAddNewBook(dispatch))
+    },
+    hideAddNewBookForm: () => {
+      dispatch(hideAddNewBook(dispatch))
     }
   }
 }

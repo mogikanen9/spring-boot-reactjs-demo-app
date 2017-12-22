@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { CustomPageHeader } from '../CustomPageHeader'
 import { LoadingEl } from '../util/LoadingEl'
 import { BookListExpandedRow } from './BookListExpandedRow'
+import { BookForm } from './BookForm'
 
 import { BootstrapTable, TableHeaderColumn, DeleteButton, InsertButton } from 'react-bootstrap-table'
 
@@ -11,6 +12,7 @@ export class BookList extends Component {
         super(props)
         this.renderBookTable = this.renderBookTable.bind(this)
         this.onDeleteRow = this.onDeleteRow.bind(this)
+        this.handleInsertButtonClick = this.handleInsertButtonClick.bind(this)
         console.log('this.props.isFetching->', this.props.isFetching)
     }
 
@@ -26,14 +28,14 @@ export class BookList extends Component {
 
     isExpandableRow(row) {
         return true
-    }    
+    }
 
     onDeleteRow(rows) {
         for (let row of rows) {
 
             let books2Del = this.props.books.filter((book) => {
                 return book.isbn === row
-              })       
+            })
             //allow delete one book at a time only  
             let bookURI = books2Del[0]._links['self'].href
             console.log(`is selected to beremoved->${bookURI}`)
@@ -69,18 +71,18 @@ export class BookList extends Component {
 
     handleInsertButtonClick = (onClick) => {
         console.log('This is my custom function for InserButton click event');
-        alert('Adding new book stub')
-      }
+        this.props.showAddNewBookForm()
+    }
 
-      createCustomInsertButton = (onClick) => {
+    createCustomInsertButton = (onClick) => {
         return (
-          <InsertButton
-            btnText='Add Book'
-            btnContextual='btn-primary'
-            btnGlyphicon='glyphicon-edit'
-            onClick={ () => this.handleInsertButtonClick(onClick) }/>
+            <InsertButton
+                btnText='Add Book'
+                btnContextual='btn-primary'
+                btnGlyphicon='glyphicon-edit'
+                onClick={() => this.handleInsertButtonClick(onClick)} />
         )
-      }
+    }
 
     renderBookTable() {
 
@@ -125,9 +127,14 @@ export class BookList extends Component {
 
     render() {
 
-        let content = this.renderBookTable()
+        let content = 'empty content'
+        console.log('this.props.showAddNewBook -> ', this.props.showAddNewBook)
         if (this.props.isFetching === true) {
             content = (<LoadingEl />)
+        } else if (this.props.showAddNewBook === true) {
+            content = (<BookForm handleHideForm={this.props.hideAddNewBookForm} />)
+        } else {
+            content = this.renderBookTable()
         }
 
         return (

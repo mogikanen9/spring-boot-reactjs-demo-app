@@ -1,5 +1,5 @@
-import { ADD_BOOK, DELETE_BOOK, UPDATE_BOOK, FETCH_BOOKS, DISPLAY_BOOKS } from '../constants/ActionTypes'
-
+import { ADD_BOOK, DELETE_BOOK, UPDATE_BOOK } from '../constants/ActionTypes'
+import { FETCH_BOOKS, DISPLAY_BOOKS, SHOW_ADD_NEW_BOOK, HIDE_ADD_NEW_BOOK } from '../constants/ActionTypes'
 const initBookState = {
   myBooks: [],
   isFetching: false
@@ -17,7 +17,7 @@ export default function books(state = initBookState, action) {
       }
     }
     case DELETE_BOOK: {
-      console.log('removing book->',action.bookURI)
+      console.log('removing book->', action.bookURI)
       return state
     }
     case FETCH_BOOKS: {
@@ -32,6 +32,18 @@ export default function books(state = initBookState, action) {
         ...state,
         myBooks: action.books,
         isFetching: false
+      }
+    }
+    case SHOW_ADD_NEW_BOOK: {
+      return {
+        ...state,
+        showAddNewBook: true
+      }
+    }
+    case HIDE_ADD_NEW_BOOK: {
+      return {
+        ...state,
+        showAddNewBook: false
       }
     }
     default:

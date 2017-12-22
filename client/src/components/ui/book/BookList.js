@@ -139,7 +139,7 @@ export class BookList extends Component {
 
         return (
             <div className="container">
-                <CustomPageHeader headerTitle="Books" />
+                <CustomPageHeader headerTitle="Manage Books" />
                 <div className="row">
                     <div className="col-md-12">
                         {content}

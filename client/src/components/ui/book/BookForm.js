@@ -11,18 +11,21 @@ export class BookForm extends Component {
         this.buildAuthorListOptions = this.buildAuthorListOptions.bind(this)
     }
 
+    componentDidMount() {
+        this.props.loadAuthors()
+    }
+
     handleDayChange(day) {
         console.log('selected publicationDate->', day)
     }
 
     buildAuthorListOptions(authors){        
         return authors.map(function(author){
-            return (<option value={author.id}>{author.name}</option>)
+            return (<option value={author.id}>{author.firstName} {author.lastName}</option>)
         })
     }
 
     render() {
-        let authors = [{id:1, name:"John Doe"},{id:2,name:"Jenny Doe"},{id:3, name:"Vasya Pupkin"}]
         return (
             <div className="container">
                 <div className="row">
@@ -55,7 +58,7 @@ export class BookForm extends Component {
                                     <div className="form-group">
                                         <label htmlFor="addAuthor">Author:</label>
                                         <select id="addAuthor" className="form-control">
-                                            {this.buildAuthorListOptions(authors)}
+                                            {this.buildAuthorListOptions(this.props.authors)}
                                         </select>
                                     </div>
                                     <div className="form-group">

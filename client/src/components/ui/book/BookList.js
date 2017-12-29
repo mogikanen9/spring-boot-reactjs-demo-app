@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { CustomPageHeader } from '../CustomPageHeader'
 import { LoadingEl } from '../util/LoadingEl'
 import { BookListExpandedRow } from './BookListExpandedRow'
-import { BookForm } from './BookForm'
+import VisibleBookForm from './containers/VisibleBookForm'
 
 import { BootstrapTable, TableHeaderColumn, DeleteButton, InsertButton } from 'react-bootstrap-table'
 
@@ -132,7 +132,7 @@ export class BookList extends Component {
         if (this.props.isFetching === true) {
             content = (<LoadingEl />)
         } else if (this.props.showAddNewBook === true) {
-            content = (<BookForm handleHideForm={this.props.hideAddNewBookForm} />)
+            content = (<VisibleBookForm handleHideForm={this.props.hideAddNewBookForm} />)
         } else {
             content = this.renderBookTable()
         }

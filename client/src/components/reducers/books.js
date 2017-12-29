@@ -1,10 +1,10 @@
 import { ADD_BOOK, DELETE_BOOK, UPDATE_BOOK } from '../constants/ActionTypes'
 import { FETCH_BOOKS, DISPLAY_BOOKS, SHOW_ADD_NEW_BOOK, HIDE_ADD_NEW_BOOK } from '../constants/ActionTypes'
+
 const initBookState = {
   myBooks: [],
   isFetching: false
 }
-
 
 export default function books(state = initBookState, action) {
   console.log('books->action.type->', action.type);

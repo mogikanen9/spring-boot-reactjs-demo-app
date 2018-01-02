@@ -34,7 +34,7 @@ export class BookList extends Component {
         for (let row of rows) {
 
             let books2Del = this.props.books.filter((book) => {
-                return book.isbn === row
+                return book.id === row
             })
             //allow delete one book at a time only  
             let bookURI = books2Del[0]._links['self'].href
@@ -118,7 +118,8 @@ export class BookList extends Component {
                 insertRow
                 striped
                 hover>
-                <TableHeaderColumn isKey={true} dataField='isbn'>ISBN</TableHeaderColumn>
+                <TableHeaderColumn dataField='id' isKey={true}>ID</TableHeaderColumn>
+                <TableHeaderColumn dataField='isbn'>ISBN</TableHeaderColumn>
                 <TableHeaderColumn dataField='name' dataSort={true} >Book Name</TableHeaderColumn>
                 <TableHeaderColumn dataField='published'>Publication Date</TableHeaderColumn>
             </BootstrapTable>
@@ -132,7 +133,8 @@ export class BookList extends Component {
         if (this.props.isFetching === true) {
             content = (<LoadingEl />)
         } else if (this.props.showAddNewBook === true) {
-            content = (<VisibleBookForm handleHideForm={this.props.hideAddNewBookForm} />)
+            content = (<VisibleBookForm handleHideForm={this.props.hideAddNewBookForm}
+                handleSubmitForm={this.props.addNewBook} />)
         } else {
             content = this.renderBookTable()
         }

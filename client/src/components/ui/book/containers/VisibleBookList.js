@@ -1,6 +1,6 @@
 import React, { connect } from 'react-redux'
 import { BookList } from '../BookList'
-import { fetchBooks, deleteBook, showAddNewBook, hideAddNewBook } from '../../../actions/index'
+import { fetchBooks, deleteBook, showAddNewBook, hideAddNewBook,addNewBook } from '../../../actions/index'
 
 const mapStateToProps = state => {
   console.log('state->', state)
@@ -28,6 +28,9 @@ const mapDispatchToProps = dispatch => {
     },
     hideAddNewBookForm: () => {
       dispatch(hideAddNewBook(dispatch))
+    },
+    addNewBook: (newBook) =>{
+      dispatch(addNewBook(dispatch, newBook))
     }
   }
 }

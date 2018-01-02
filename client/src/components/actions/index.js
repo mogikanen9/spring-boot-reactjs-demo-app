@@ -1,4 +1,5 @@
-import { FETCH_BOOKS, DISPLAY_BOOKS, DELETE_BOOK,SHOW_ADD_NEW_BOOK,HIDE_ADD_NEW_BOOK } from '../constants/ActionTypes'
+import { FETCH_BOOKS, DISPLAY_BOOKS, DELETE_BOOK } from '../constants/ActionTypes'
+import { SHOW_ADD_NEW_BOOK, HIDE_ADD_NEW_BOOK, ADD_BOOK } from '../constants/ActionTypes'
 import fetch from 'isomorphic-fetch'
 
 export const fetchBooks = (dispatch, pageSize) => {
@@ -37,6 +38,13 @@ export const hideAddNewBook = (dispatch) => {
     }
 }
 
+export const addNewBook = (dispatch, newBook) => {
+    return {
+        type: ADD_BOOK,
+        books: addBookWithApi(dispatch, newBook)
+    }
+}
+
 const BOOKS_API_URL = "http://localhost:8080/api/v1/books?size="
 
 function getBooksFromApi(dispatch, pageSize) {
@@ -51,14 +59,14 @@ function getBooksFromApi(dispatch, pageSize) {
         //.then((response) => response.json())
         .then((response) => {
             console.log("response.status->", response.status)
-            if(response.ok){
-                
-                response.json().then(function(data){
+            if (response.ok) {
+
+                response.json().then(function (data) {
                     console.log("data->", data)
                     dispatch(displayBooks(data._embedded.books))
-                })                
+                })
 
-            }else if (response.status === 403) {
+            } else if (response.status === 403) {
                 console.warn("You are not authorized to view this page/data!")
                 dispatch(displayBooks([]))
             } else {
@@ -79,10 +87,36 @@ function deleteBookWithApi(dispatch, bookURI) {
         })
     }).then((response) => {
         console.log("deleteBook: response.status->", response.status)
-        if(response.ok){
+        if (response.ok) {
             //dispatch(getBooksFromApi(dispatch, 5))
-        }else if (response.status === 403) {
+        } else if (response.status === 403) {
             console.log('not authorized to remove books')
+        } else {
+            throw Error(response.statusText)
+        }
+    })
+        .catch((error) => {
+            console.error(error);
+        })
+
+}
+
+function addBookWithApi(dispatch, newBook) {
+
+    fetch(BOOKS_API_URL, {
+        method: "POST",
+        credentials: 'same-origin',
+        headers: new Headers({
+            'Content-Type': 'application/json'
+        }),
+        body: JSON.stringify(newBook),
+    }).then((response) => {
+        console.log("addBookWithApi: response.status->", response.status)
+        if (response.ok) {
+            dispatch(getBooksFromApi(dispatch, 5))
+        } else if (response.status === 403) {
+            //console.log('not authorized to add book(s)')
+            throw Error('not authorized to add book(s)')
         } else {
             throw Error(response.statusText)
         }

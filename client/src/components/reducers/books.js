@@ -10,10 +10,8 @@ export default function books(state = initBookState, action) {
   console.log('books->action.type->', action.type);
   switch (action.type) {
     case ADD_BOOK: {
-      console.log('action.newBook->', action.newBook)
       return {
-        ...state,
-        myBooks: state.myBooks.push(action.newBook)
+        ...state
       }
     }
     case DELETE_BOOK: {

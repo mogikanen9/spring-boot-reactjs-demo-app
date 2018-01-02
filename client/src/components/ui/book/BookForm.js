@@ -9,6 +9,7 @@ export class BookForm extends Component {
         super(props)
         this.handleDayChange = this.handleDayChange.bind(this)
         this.buildAuthorListOptions = this.buildAuthorListOptions.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
     }
 
     componentDidMount() {
@@ -19,10 +20,23 @@ export class BookForm extends Component {
         console.log('selected publicationDate->', day)
     }
 
-    buildAuthorListOptions(authors){        
-        return authors.map(function(author){
-            return (<option value={author.id}>{author.firstName} {author.lastName}</option>)
+    buildAuthorListOptions(authors) {
+        return authors.map(function (author) {
+            return (<option value={author.id} key={author.id}>{author.fullName}</option>)
         })
+    }
+
+    handleSubmit(e) {
+        let book = {
+            "name": "Building SOA4444",
+            "description": "SOA4444",
+            "isbn": "11113333",
+            "published": "2017-02-20",
+            "author": "http://localhost:8080/api/v1/authors/4"
+        }
+
+        this.props.handleSubmitForm(book)
+        this.props.handleHideForm()
     }
 
     render() {
@@ -65,7 +79,7 @@ export class BookForm extends Component {
                                         <Button
                                             onClick={this.props.handleHideForm}
                                             bsStyle="default">Cancel</Button>
-                                        <Button onClick={this.props.handleSubmitForm}
+                                        <Button onClick={this.handleSubmit}
                                             bsStyle="default"
                                             type="submit">Submit</Button>
                                     </div>

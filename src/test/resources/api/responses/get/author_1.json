@@ -1,0 +1,12 @@
+{
+    "firstName": "Yakov",
+    "lastName": "Fain",
+    "_links": {
+        "self": {
+            "href": "http://localhost:8080/api/v1/authors/1"
+        },
+        "author": {
+            "href": "http://localhost:8080/api/v1/authors/1"
+        }
+    }
+}

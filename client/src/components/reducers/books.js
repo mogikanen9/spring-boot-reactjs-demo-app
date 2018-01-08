@@ -1,15 +1,16 @@
 import { ADD_BOOK, DELETE_BOOK, UPDATE_BOOK } from '../constants/ActionTypes'
-import { FETCH_BOOKS, DISPLAY_BOOKS, SHOW_ADD_NEW_BOOK, HIDE_ADD_NEW_BOOK } from '../constants/ActionTypes'
+import { FETCH_BOOKS, DISPLAY_BOOKS, SHOW_ADD_NEW_BOOK, HIDE_ADD_NEW_BOOK,SET_NEW_BOOK_PROPS } from '../constants/ActionTypes'
 
 const initBookState = {
   myBooks: [],
-  isFetching: false
+  isFetching: false,
+  bookToAddOrEdit: {}
 }
 
 export default function books(state = initBookState, action) {
   console.log('books->action.type->', action.type);
   switch (action.type) {
-    case ADD_BOOK: {
+    case ADD_BOOK: {      
       return {
         ...state
       }
@@ -42,6 +43,18 @@ export default function books(state = initBookState, action) {
       return {
         ...state,
         showAddNewBook: false
+      }
+    }
+    case SET_NEW_BOOK_PROPS: {
+
+      const propName = action.bookPropertyName
+      const propValue = action.bookPropertyValue
+      state.bookToAddOrEdit[propName] = propValue
+      console.log('state.bookToAddOrEdit->',state.bookToAddOrEdit)
+
+      return {
+        ...state,
+        bookToAddOrEdit: state.bookToAddOrEdit
       }
     }
     default:

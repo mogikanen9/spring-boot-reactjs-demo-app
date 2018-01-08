@@ -1,5 +1,5 @@
 import { FETCH_BOOKS, DISPLAY_BOOKS, DELETE_BOOK } from '../constants/ActionTypes'
-import { SHOW_ADD_NEW_BOOK, HIDE_ADD_NEW_BOOK, ADD_BOOK } from '../constants/ActionTypes'
+import { SHOW_ADD_NEW_BOOK, HIDE_ADD_NEW_BOOK, ADD_BOOK, SET_NEW_BOOK_PROPS } from '../constants/ActionTypes'
 import fetch from 'isomorphic-fetch'
 
 export const fetchBooks = (dispatch, pageSize) => {
@@ -38,10 +38,19 @@ export const hideAddNewBook = (dispatch) => {
     }
 }
 
-export const addNewBook = (dispatch, newBook) => {
+export const addNewBook = (dispatch, newBook, callback) => {
+
+    return dispatch => {
+        dispatch(callback)
+        return addBookWithApi(dispatch, newBook)        
+      }
+}
+
+export const updateNewOrExistingBookProperty = (bookPropertyName, bookPropertyValue) => {
     return {
-        type: ADD_BOOK,
-        books: addBookWithApi(dispatch, newBook)
+        type: SET_NEW_BOOK_PROPS,
+        bookPropertyName: bookPropertyName,
+        bookPropertyValue: bookPropertyValue
     }
 }
 
@@ -88,7 +97,7 @@ function deleteBookWithApi(dispatch, bookURI) {
     }).then((response) => {
         console.log("deleteBook: response.status->", response.status)
         if (response.ok) {
-            //dispatch(getBooksFromApi(dispatch, 5))
+            //dispatch(getBooksFromApi(dispatch, 5))            
         } else if (response.status === 403) {
             console.log('not authorized to remove books')
         } else {
@@ -113,7 +122,7 @@ function addBookWithApi(dispatch, newBook) {
     }).then((response) => {
         console.log("addBookWithApi: response.status->", response.status)
         if (response.ok) {
-            dispatch(getBooksFromApi(dispatch, 5))            
+            dispatch(fetchBooks(dispatch, 5))            
         } else if (response.status === 403) {
             //console.log('not authorized to add book(s)')
             throw Error('not authorized to add book(s)')

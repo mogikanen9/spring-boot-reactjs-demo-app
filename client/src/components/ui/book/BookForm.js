@@ -28,9 +28,9 @@ export class BookForm extends Component {
 
     handleSubmit(e) {
         let book = {
-            "name": "Building SOA4444",
-            "description": "SOA4444",
-            "isbn": "11113333",
+            "name": "Building AAAAAA",
+            "description": "SSSSSSS",
+            "isbn": "565656565",
             "published": "2017-02-20",
             "author": "http://localhost:8080/api/v1/authors/4"
         }

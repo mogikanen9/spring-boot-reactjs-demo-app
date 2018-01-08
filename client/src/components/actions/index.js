@@ -113,7 +113,7 @@ function addBookWithApi(dispatch, newBook) {
     }).then((response) => {
         console.log("addBookWithApi: response.status->", response.status)
         if (response.ok) {
-            dispatch(getBooksFromApi(dispatch, 5))
+            dispatch(getBooksFromApi(dispatch, 5))            
         } else if (response.status === 403) {
             //console.log('not authorized to add book(s)')
             throw Error('not authorized to add book(s)')

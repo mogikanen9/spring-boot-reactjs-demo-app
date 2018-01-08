@@ -34,7 +34,7 @@ export class BookList extends Component {
         for (let row of rows) {
 
             let books2Del = this.props.books.filter((book) => {
-                return book.id === row
+                return book.isbn === row
             })
             //allow delete one book at a time only  
             let bookURI = books2Del[0]._links['self'].href
@@ -118,8 +118,7 @@ export class BookList extends Component {
                 insertRow
                 striped
                 hover>
-                <TableHeaderColumn dataField='id' isKey={true}>ID</TableHeaderColumn>
-                <TableHeaderColumn dataField='isbn'>ISBN</TableHeaderColumn>
+                <TableHeaderColumn dataField='isbn' isKey={true} >ISBN</TableHeaderColumn>
                 <TableHeaderColumn dataField='name' dataSort={true} >Book Name</TableHeaderColumn>
                 <TableHeaderColumn dataField='published'>Publication Date</TableHeaderColumn>
             </BootstrapTable>

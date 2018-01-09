@@ -9,22 +9,24 @@ export class BookListExpandedRow extends Component {
                 <div className="panel-heading">Additional book information</div>
                 <div className="panel-body">
                     <table className="table table-condensed">
-                        <tr>
-                            <td className="col-md-3">
-                                Author:
+                        <tbody>
+                            <tr>
+                                <td className="col-md-3">
+                                    Author:
                         </td>
-                            <td className="col-md-9">
-                                {this.props.author}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className="col-md-3">
-                                Description:
+                                <td className="col-md-9">
+                                    {this.props.author}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td className="col-md-3">
+                                    Description:
                         </td>
-                            <td className="col-md-9">
-                                {this.props.description}
-                            </td>
-                        </tr>
+                                <td className="col-md-9">
+                                    {this.props.description}
+                                </td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
             </div>

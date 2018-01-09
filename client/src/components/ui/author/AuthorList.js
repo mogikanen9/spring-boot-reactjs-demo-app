@@ -196,8 +196,8 @@ export class AuthorList extends Component {
                     firstName={author.firstName}
                     lastName={author.lastName}
                     key={author._links.author.href}
-                    handleViewEdit={(evt) => this.handleViewEdit(evt, author._links.author.href)}
-                    handleDelete={(evt) => this.handleDelete(evt, author._links.author.href)} />
+                    handleViewEdit={(evt) => this.handleViewEdit(evt, author._links.self.href)}
+                    handleDelete={(evt) => this.handleDelete(evt, author._links.self.href)} />
             }, this)
         }
 

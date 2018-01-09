@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import { CustomPageHeader } from '../CustomPageHeader'
 import { LoadingEl } from '../util/LoadingEl'
 import { BookListExpandedRow } from './BookListExpandedRow'
+import VisibleBookForm from './containers/VisibleBookForm'
 
-import { BootstrapTable, TableHeaderColumn, DeleteButton } from 'react-bootstrap-table'
+import { BootstrapTable, TableHeaderColumn, DeleteButton, InsertButton } from 'react-bootstrap-table'
 
 export class BookList extends Component {
 
@@ -11,6 +12,7 @@ export class BookList extends Component {
         super(props)
         this.renderBookTable = this.renderBookTable.bind(this)
         this.onDeleteRow = this.onDeleteRow.bind(this)
+        this.handleInsertButtonClick = this.handleInsertButtonClick.bind(this)
         console.log('this.props.isFetching->', this.props.isFetching)
     }
 
@@ -26,14 +28,14 @@ export class BookList extends Component {
 
     isExpandableRow(row) {
         return true
-    }    
+    }
 
     onDeleteRow(rows) {
         for (let row of rows) {
 
             let books2Del = this.props.books.filter((book) => {
-                return book.isbn === row
-              })       
+                return book.id === row
+            })
             //allow delete one book at a time only  
             let bookURI = books2Del[0]._links['self'].href
             console.log(`is selected to beremoved->${bookURI}`)
@@ -67,6 +69,21 @@ export class BookList extends Component {
         )
     }
 
+    handleInsertButtonClick = (onClick) => {
+        console.log('This is my custom function for InserButton click event');
+        this.props.showAddNewBookForm()
+    }
+
+    createCustomInsertButton = (onClick) => {
+        return (
+            <InsertButton
+                btnText='Add Book'
+                btnContextual='btn-primary'
+                btnGlyphicon='glyphicon-edit'
+                onClick={() => this.handleInsertButtonClick(onClick)} />
+        )
+    }
+
     renderBookTable() {
 
         const options = {
@@ -85,7 +102,8 @@ export class BookList extends Component {
             // withFirstAndLast: false > Hide the going to First and Last page button
             // hidePageListOnlyOnePage: true > Hide the page list if only one page.
             onDeleteRow: this.onDeleteRow,
-            deleteBtn: this.createCustomDeleteButton
+            deleteBtn: this.createCustomDeleteButton,
+            insertBtn: this.createCustomInsertButton
         }
 
         return (
@@ -97,9 +115,11 @@ export class BookList extends Component {
                 expandComponent={this.expandComponent}
                 selectRow={this.selectRowProp}
                 deleteRow
+                insertRow
                 striped
                 hover>
-                <TableHeaderColumn isKey={true} dataField='isbn'>ISBN</TableHeaderColumn>
+                <TableHeaderColumn dataField='id' isKey={true}>ID</TableHeaderColumn>
+                <TableHeaderColumn dataField='isbn'>ISBN</TableHeaderColumn>
                 <TableHeaderColumn dataField='name' dataSort={true} >Book Name</TableHeaderColumn>
                 <TableHeaderColumn dataField='published'>Publication Date</TableHeaderColumn>
             </BootstrapTable>
@@ -108,14 +128,19 @@ export class BookList extends Component {
 
     render() {
 
-        let content = this.renderBookTable()
+        let content = 'empty content'
+        console.log('this.props.showAddNewBook -> ', this.props.showAddNewBook)
         if (this.props.isFetching === true) {
             content = (<LoadingEl />)
+        } else if (this.props.showAddNewBook === true) {
+            content = (<VisibleBookForm handleHideForm={this.props.hideAddNewBookForm} />)
+        } else {
+            content = this.renderBookTable()
         }
 
         return (
             <div className="container">
-                <CustomPageHeader headerTitle="Books" />
+                <CustomPageHeader headerTitle="Manage Books" />
                 <div className="row">
                     <div className="col-md-12">
                         {content}

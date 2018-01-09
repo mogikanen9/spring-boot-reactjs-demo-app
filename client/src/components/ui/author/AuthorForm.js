@@ -26,7 +26,7 @@ export class AuthorForm extends Component {
         console.log('mounted, entityLink->', this.state.entityLink)
         if (this.state.entityLink && this.state.entityLink !== "") {
             fetch(this.state.entityLink,
-                { credentials: 'same-origin' })
+                { credentials: 'same-origin', mode: 'cors', cache: 'default' })
                 .then((response) => response.json())
                 .then((responseJson) => {
                     console.log("responseJson", responseJson)

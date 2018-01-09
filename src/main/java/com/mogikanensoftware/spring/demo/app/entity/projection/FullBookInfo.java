@@ -1,4 +1,4 @@
-package com.mogikanensoftware.spring.demo.app.projections;
+package com.mogikanensoftware.spring.demo.app.entity.projection;
 
 import java.util.Date;
 
@@ -7,7 +7,7 @@ import org.springframework.data.rest.core.config.Projection;
 
 import com.mogikanensoftware.spring.demo.app.entity.Book;
 
-@Projection(name="fullBookInfo", types = Book.class)
+@Projection(name="bookInfo", types = Book.class)
 public interface FullBookInfo {
 
 	Long getId();

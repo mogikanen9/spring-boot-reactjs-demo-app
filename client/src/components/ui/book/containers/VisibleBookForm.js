@@ -1,14 +1,15 @@
 import React, { connect } from 'react-redux'
 import { BookForm } from '../BookForm'
 import { fetchAuthors } from '../../../actions/authors'
-import { updateNewOrExistingBookProperty, addNewBook } from '../../../actions/index'
+import { updateNewOrExistingBookProperty, submitBookWithValidation } from '../../../actions/index'
 
 const mapStateToProps = state => {
   console.log('state->', state)
   return {
     authors: state.authors.myAuthors,
     isFetching: state.authors.isFetching,
-    bookToAddOrEdit: state.books.bookToAddOrEdit
+    bookToAddOrEdit: state.books.bookToAddOrEdit,
+    validationErrors: state.books.validationErrors
   }
 }
 
@@ -24,8 +25,9 @@ const mapDispatchToProps = dispatch => {
       console.log('Dispatching updateNewOrExistingBook...')
       dispatch(updateNewOrExistingBookProperty(name, value))
     },
-    addNewBook: (newBook, callback) => {
-      dispatch(addNewBook(dispatch, newBook, callback))
+
+    submitBookWithValidation: (newBook) => {
+      dispatch(submitBookWithValidation(newBook))
     }
   }
 }

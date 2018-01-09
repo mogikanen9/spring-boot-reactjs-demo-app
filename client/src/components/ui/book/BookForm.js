@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Button } from 'react-bootstrap'
 import DayPickerInput from 'react-day-picker/DayPickerInput'
 import 'react-day-picker/lib/style.css'
+import BookFormErrors from './BookFormErrors'
 
 export class BookForm extends Component {
 
@@ -38,7 +39,7 @@ export class BookForm extends Component {
 
     handleSubmit(e) {
         e.preventDefault()
-        this.props.addNewBook(this.props.bookToAddOrEdit, this.props.handleHideForm)        
+        this.props.submitBookWithValidation(this.props.bookToAddOrEdit)
     }
 
     render() {
@@ -51,6 +52,7 @@ export class BookForm extends Component {
                                 <h3 className="panel-title">Add Book</h3>
                             </div>
                             <div className="panel-body">
+                                <BookFormErrors formErrors={this.props.validationErrors} />
                                 <form>
                                     <div className="form-group">
                                         <label htmlFor="addIsbn">ISBN:</label>
@@ -58,6 +60,7 @@ export class BookForm extends Component {
                                             className="form-control"
                                             id="addIsbn"
                                             name="isbn"
+                                            maxLength="10"
                                             onChange={this.handlePropertyChange}></input>
                                     </div>
                                     <div className="form-group">
@@ -66,6 +69,7 @@ export class BookForm extends Component {
                                             className="form-control"
                                             id="addBookName"
                                             name="name"
+                                            maxLength="100"
                                             onChange={this.handlePropertyChange}></input>
                                     </div>
                                     <div className="form-group">
@@ -81,15 +85,17 @@ export class BookForm extends Component {
                                             className="form-control"
                                             onChange={this.handlePropertyChange}
                                             name="author">
+                                            <option value="-1" key="-1">Please select</option>
                                             {this.buildAuthorListOptions(this.props.authors)}
                                         </select>
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="addDesc">Description:</label>
-                                        <textarea class="form-control"
+                                        <textarea className="form-control"
                                             rows="5"
                                             id="addDesc"
                                             name="description"
+                                            maxLength="255"
                                             onChange={this.handlePropertyChange}></textarea>
                                     </div>
                                     <div className="form-group">

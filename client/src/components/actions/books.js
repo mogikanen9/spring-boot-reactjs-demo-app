@@ -89,7 +89,7 @@ function validateNewBookValues(newBook) {
         errors.push({ fieldName: 'description', msg: 'Description of the book cannot be empty' })
     }
 
-    if ((!newBook.author) || (newBook.author == "-1")) {
+    if ((!newBook.author) || (newBook.author === "-1")) {
         errors.push({ fieldName: 'author', msg: 'Please, select book author' })
     }
 

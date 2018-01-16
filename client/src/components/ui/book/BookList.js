@@ -117,11 +117,12 @@ export class BookList extends Component {
                 deleteRow
                 insertRow
                 striped
-                hover>
+                hover
+                search>
                 <TableHeaderColumn dataField='id' isKey={true} hidden={true}>ID</TableHeaderColumn>
                 <TableHeaderColumn dataField='isbn' >ISBN</TableHeaderColumn>
                 <TableHeaderColumn dataField='name' dataSort={true} >Book Name</TableHeaderColumn>
-                <TableHeaderColumn dataField='published'>Publication Date</TableHeaderColumn>
+                <TableHeaderColumn dataField='published' dataSort={true} >Publication Date</TableHeaderColumn>
                 <TableHeaderColumn dataField='authorInfo'>Author</TableHeaderColumn>
             </BootstrapTable>
         )

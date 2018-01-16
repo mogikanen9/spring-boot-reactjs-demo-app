@@ -1,5 +1,7 @@
-import { FETCH_BOOKS, DISPLAY_BOOKS, DELETE_BOOK, RESET_NEW_BOOK_PROPS } from '../constants/ActionTypes'
-import { SHOW_ADD_NEW_BOOK, HIDE_ADD_NEW_BOOK, SET_NEW_BOOK_PROPS, UPDATE_VALIDATION_ERRORS } from '../constants/ActionTypes'
+import { FETCH_BOOKS, DISPLAY_BOOKS } from '../constants/ActionTypes'
+import { DELETE_BOOK, RESET_NEW_BOOK_PROPS } from '../constants/ActionTypes'
+import { SHOW_ADD_NEW_BOOK, HIDE_ADD_NEW_BOOK } from '../constants/ActionTypes'
+import { SET_NEW_BOOK_PROPS, UPDATE_VALIDATION_ERRORS } from '../constants/ActionTypes'
 import fetch from 'isomorphic-fetch'
 
 export const fetchBooks = (dispatch, pageSize) => {
@@ -87,7 +89,7 @@ function validateNewBookValues(newBook) {
         errors.push({ fieldName: 'description', msg: 'Description of the book cannot be empty' })
     }
 
-    if ((!newBook.author) || (newBook.author == "-1")) {
+    if ((!newBook.author) || (newBook.author === "-1")) {
         errors.push({ fieldName: 'author', msg: 'Please, select book author' })
     }
 

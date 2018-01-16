@@ -47,7 +47,8 @@ export class BookList extends Component {
         mode: "radio",
         clickToSelect: true,
         onSelect: this.onRowSelect,
-        bgColor: "rgb(238, 193, 213)"
+        bgColor: "rgb(222, 222, 222)",
+        clickToExpand: true
     }
 
     handleDeleteButtonClick = (onClick) => {
@@ -103,7 +104,8 @@ export class BookList extends Component {
             // hidePageListOnlyOnePage: true > Hide the page list if only one page.
             onDeleteRow: this.onDeleteRow,
             deleteBtn: this.createCustomDeleteButton,
-            insertBtn: this.createCustomInsertButton
+            insertBtn: this.createCustomInsertButton,
+            clearSearch: true
         }
 
         return (
@@ -117,11 +119,13 @@ export class BookList extends Component {
                 deleteRow
                 insertRow
                 striped
-                hover>
-                <TableHeaderColumn dataField='id' isKey={true}>ID</TableHeaderColumn>
-                <TableHeaderColumn dataField='isbn'>ISBN</TableHeaderColumn>
-                <TableHeaderColumn dataField='name' dataSort={true} >Book Name</TableHeaderColumn>
-                <TableHeaderColumn dataField='published'>Publication Date</TableHeaderColumn>
+                hover
+                search>
+                <TableHeaderColumn dataField='id' isKey={true} hidden={true}>ID</TableHeaderColumn>                
+                <TableHeaderColumn dataField='isbn' width='10%' dataAlign='center' >ISBN</TableHeaderColumn>
+                <TableHeaderColumn dataField='name' width='50%' dataSort={true} >Book Name</TableHeaderColumn>
+                <TableHeaderColumn dataField='published' width='15%' dataSort={true} dataAlign='center'>Published On</TableHeaderColumn>
+                <TableHeaderColumn dataField='authorInfo' width='25%' >Author</TableHeaderColumn>
             </BootstrapTable>
         )
     }

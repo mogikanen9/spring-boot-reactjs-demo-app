@@ -47,7 +47,8 @@ export class BookList extends Component {
         mode: "radio",
         clickToSelect: true,
         onSelect: this.onRowSelect,
-        bgColor: "rgb(238, 193, 213)"
+        bgColor: "rgb(222, 222, 222)",
+        clickToExpand: true
     }
 
     handleDeleteButtonClick = (onClick) => {
@@ -103,7 +104,8 @@ export class BookList extends Component {
             // hidePageListOnlyOnePage: true > Hide the page list if only one page.
             onDeleteRow: this.onDeleteRow,
             deleteBtn: this.createCustomDeleteButton,
-            insertBtn: this.createCustomInsertButton
+            insertBtn: this.createCustomInsertButton,
+            clearSearch: true
         }
 
         return (

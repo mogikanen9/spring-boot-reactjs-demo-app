@@ -121,11 +121,11 @@ export class BookList extends Component {
                 striped
                 hover
                 search>
-                <TableHeaderColumn dataField='id' isKey={true} hidden={true}>ID</TableHeaderColumn>
-                <TableHeaderColumn dataField='isbn' >ISBN</TableHeaderColumn>
-                <TableHeaderColumn dataField='name' dataSort={true} >Book Name</TableHeaderColumn>
-                <TableHeaderColumn dataField='published' dataSort={true} >Publication Date</TableHeaderColumn>
-                <TableHeaderColumn dataField='authorInfo'>Author</TableHeaderColumn>
+                <TableHeaderColumn dataField='id' isKey={true} hidden={true}>ID</TableHeaderColumn>                
+                <TableHeaderColumn dataField='isbn' width='10%' dataAlign='center' >ISBN</TableHeaderColumn>
+                <TableHeaderColumn dataField='name' width='50%' dataSort={true} >Book Name</TableHeaderColumn>
+                <TableHeaderColumn dataField='published' width='15%' dataSort={true} dataAlign='center'>Published On</TableHeaderColumn>
+                <TableHeaderColumn dataField='authorInfo' width='25%' >Author</TableHeaderColumn>
             </BootstrapTable>
         )
     }

@@ -34,3 +34,5 @@ client/dist/assets/bundle.min.js
 
 build
 .vscode
+.sts4-cache
+.gradle

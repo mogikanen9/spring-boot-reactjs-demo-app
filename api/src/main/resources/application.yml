@@ -16,7 +16,7 @@ spring:
   resources:
     static-locations:
     #- resources:static  
-    - file:///c:/opt/client/
+    - file:${demoClientAppPath}
 security:
   basic:
     enabled: false

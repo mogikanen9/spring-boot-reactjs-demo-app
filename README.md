@@ -3,7 +3,8 @@ Demo Web UI application with Spring Boot backend and React.js front-end.
 
 Initially based on Pivotal's ['React.js and Spring Data REST'](https://spring.io/guides/tutorials/react-and-spring-data-rest/) tutorial.
 
-### Details regarding technology stack:
+### Details regarding technology stack
+
  * Backend
    * [Spring DATA REST](https://projects.spring.io/spring-data-rest/)
    * [Spring Security](https://projects.spring.io/spring-security/)
@@ -14,7 +15,8 @@ Initially based on Pivotal's ['React.js and Spring Data REST'](https://spring.io
    * [Redux-thunk](https://github.com/gaearon/redux-thunk) to support async calls in middleware
    * [React-bootstrap-table](http://allenfang.github.io/react-bootstrap-table/) to display book information
    
-### Details regarding implementation:
+### Details regarding implementation
+
   * Author functionality
     * React-bootstrap for UI
     * React component state for state management ("pure" React)
@@ -25,5 +27,13 @@ Initially based on Pivotal's ['React.js and Spring Data REST'](https://spring.io
     * Redux for state management
     * Redux-thunk middleware
     * Fetch API for accessing REST API
+
+### Build and run
+
+ * Build client by running `npm run build` inside "client" folder 
+ * Build api by running `gradlew clean build` inside "api" folder
+ * Run full app (api + cleint) using `gradlew bootRun --args='--demoClientAppPath=<path_to_local_repo>\\client\build'` command.
+
+
 
  

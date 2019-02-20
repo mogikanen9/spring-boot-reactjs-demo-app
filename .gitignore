@@ -27,7 +27,6 @@ hs_err_pid*
 .project
 bin
 .settings
-.gradle/buildOutputCleanup/cache.properties
 
 client/node_modules
 client/dist/assets/bundle.min.js

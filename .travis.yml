@@ -13,4 +13,3 @@ before_install:
 
 script:
   - ./api/gradlew build
-  - ./client/npm run build

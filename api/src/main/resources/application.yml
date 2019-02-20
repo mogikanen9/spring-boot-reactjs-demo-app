@@ -1,0 +1,26 @@
+server:
+  port: 8080
+  error:
+    whitelabel:
+      enabled: true
+spring:
+  datasource:
+    platform: h2
+  data:
+    rest:
+      base-path: /api/v1
+  profiles:
+    active:
+    - DEV
+    #- LOCAL-DEV    
+  resources:
+    static-locations:
+    #- resources:static  
+    - file:${demoClientAppPath}
+security:
+  basic:
+    enabled: false
+#my:
+#  cross-origins:
+#    allowed: http://localhost:3000
+

@@ -2,7 +2,7 @@ server:
   port: 8080
   error:
     whitelabel:
-      enabled: false
+      enabled: true
 spring:
   datasource:
     platform: h2
@@ -13,12 +13,14 @@ spring:
     active:
     - DEV
     #- LOCAL-DEV    
+  resources:
+    static-locations:
+    #- resources:static  
+    - file:///c:/opt/client/
 security:
   basic:
     enabled: false
-my:
-  cross-origins:
-   allowed: http://localhost:3000
-
-
+#my:
+#  cross-origins:
+#    allowed: http://localhost:3000
 

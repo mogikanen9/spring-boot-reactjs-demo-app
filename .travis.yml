@@ -5,5 +5,12 @@ language: java
 jdk:
   - openjdk8
 
+env:
+  - NODE_VERSION="8.11"
+
+before_install:
+  - nvm install $NODE_VERSION
+
 script:
   - ./api/gradlew build
+  - ./client/npm run build

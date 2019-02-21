@@ -1,9 +1,16 @@
-# spring-boot-reactjs-demo-app
+# spring-boot-reactjs-demo-app 
+
+[![Build Status](https://travis-ci.org/mogikanen9/spring-boot-reactjs-demo-app.svg?branch=master)](https://travis-ci.org/mogikanen9/spring-boot-reactjs-demo-app)
+
+## Description
+
 Demo Web UI application with Spring Boot backend and React.js front-end. 
 
 Initially based on Pivotal's ['React.js and Spring Data REST'](https://spring.io/guides/tutorials/react-and-spring-data-rest/) tutorial.
 
-### Details regarding technology stack
+## Details
+
+### Technology stack
 
  * Backend
    * [Spring DATA REST](https://projects.spring.io/spring-data-rest/)
@@ -15,7 +22,7 @@ Initially based on Pivotal's ['React.js and Spring Data REST'](https://spring.io
    * [Redux-thunk](https://github.com/gaearon/redux-thunk) to support async calls in middleware
    * [React-bootstrap-table](http://allenfang.github.io/react-bootstrap-table/) to display book information
    
-### Details regarding implementation
+### Implementation
 
   * Author functionality
     * React-bootstrap for UI

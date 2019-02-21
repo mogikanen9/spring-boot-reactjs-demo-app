@@ -1,4 +1,4 @@
-import React, { connect } from 'react-redux'
+import { connect } from 'react-redux'
 import { BookForm } from '../BookForm'
 import { fetchAuthors } from '../../../actions/authors'
 import { updateNewOrExistingBookProperty, submitBookWithValidation } from '../../../actions/books'

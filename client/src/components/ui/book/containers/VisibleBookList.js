@@ -1,4 +1,4 @@
-import React, { connect } from 'react-redux'
+import { connect } from 'react-redux'
 import { BookList } from '../BookList'
 import { fetchBooks, deleteBook, showAddNewBook, hideAddNewBook } from '../../../actions/books'
 

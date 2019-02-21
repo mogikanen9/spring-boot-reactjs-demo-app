@@ -1,15 +1,13 @@
 dist: trusty
 
-language: java
-
-jdk:
-  - openjdk8
-
-env:
-  - NODE_VERSION="8.11"
-
-before_install:
-  - nvm install $NODE_VERSION
-
-script:
-  - ./api/gradlew build
+matrix:
+  include:
+    - language: node_js
+      node_js:
+        - "8.11"
+      script:
+        - ./client/npm run build
+    - language: java
+      jdk: openjdk8
+      script:
+        - ./api/gradlew build

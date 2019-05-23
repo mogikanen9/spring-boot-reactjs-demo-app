@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "bootstrap": "^3.3.7",
+    "bootstrap": "^3.4.1",
     "es6-promise": "^4.1.1",
     "isomorphic-fetch": "^2.2.1",
     "react": "^16.1.1",
